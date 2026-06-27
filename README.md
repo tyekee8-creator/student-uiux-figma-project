@@ -16,10 +16,10 @@
 
 ## 👥 Group Members
 
-| Registration Numbers|
-| Reg. No.22238/2023 |
-| Reg. No. 22657/2023|
-| Reg. No. 22174/2023|
+| Registration Numbers & Names|
+|Name: Thomas S. Yekee | Reg. No.22238/2023 |
+|Name: IRADUKUNDA Confiance| Reg. No. 22657/2023|
+| Name: BANANEZA Arlette | Reg. No. 22174/2023|
 
 ---
 
