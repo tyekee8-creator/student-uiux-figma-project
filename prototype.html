@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickBite — Food Delivery App</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF4B2B;--bg:#FAFAF8;--text:#1A1A2E;--muted:#6B7280;--border:#E5E7EB;--success:#2ECC71;--grad:linear-gradient(135deg,#FF4B2B,#FF416C);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Poppins',sans-serif;}
+.screen{display:none;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:68px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.05);gap:16px;}
+.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;flex-shrink:0;}
+.nsearch{flex:1;max-width:340px;display:flex;align-items:center;gap:8px;background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:8px 14px;}
+.nsearch input{border:none;outline:none;background:transparent;font-size:14px;width:100%;}
+.nlinks{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.nb{padding:8px 18px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;border:none;transition:all 0.2s;}
+.nb.g{background:transparent;border:2px solid var(--border);color:var(--text);}
+.nb.g:hover{border-color:var(--red);color:var(--red);}
+.nb.p{background:var(--grad);color:#fff;}
+.nb.p:hover{opacity:0.9;}
+.cbt{display:flex;align-items:center;gap:6px;background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:8px 14px;cursor:pointer;transition:all 0.2s;font-size:16px;}
+.cbt:hover{border-color:var(--red);}
+.cc{background:var(--red);color:#fff;border-radius:999px;font-size:11px;font-weight:700;padding:1px 7px;font-family:'Poppins',sans-serif;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:12px;font-weight:600;font-size:15px;cursor:pointer;border:none;transition:all 0.2s;font-family:'Poppins',sans-serif;}
+.bp{background:var(--grad);color:#fff;}.bp:hover{opacity:0.9;transform:translateY(-1px);}
+.bo{background:transparent;border:2px solid var(--border);color:var(--text);}.bo:hover{border-color:var(--red);color:var(--red);}
+.bw{width:100%;} .blg{padding:16px 32px;font-size:16px;}
+.bdg{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;}
+.br{background:#FEE2E2;color:var(--red);}.bg{background:#D1FAE5;color:#059669;}.by{background:#FEF3C7;color:#D97706;}.bgr{background:var(--bg);color:var(--muted);border:1px solid var(--border);}
+.fg{margin-bottom:16px;}
+.fl{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;font-family:'Poppins',sans-serif;}
+.fi{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;font-size:15px;outline:none;transition:border 0.2s;background:#fff;font-family:'Inter',sans-serif;}
+.fi:focus{border-color:var(--red);}
+.fi::placeholder{color:#9CA3AF;}
+.toast{position:fixed;bottom:28px;right:28px;background:#1A1A2E;color:#fff;padding:14px 22px;border-radius:14px;font-size:14px;font-weight:600;z-index:9999;font-family:'Poppins',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.25);transform:translateY(120px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);max-width:320px;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+#bhub{position:fixed;bottom:24px;left:24px;z-index:99999;display:flex;align-items:center;gap:8px;background:#1A1A2E;color:#fff;padding:10px 16px;border-radius:12px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);transition:all 0.2s;}
+#bhub:hover{background:var(--red);}
+.es{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;color:var(--muted);}
+.sec{padding:48px 40px;}
+.st{font-size:26px;font-weight:700;margin-bottom:6px;}
+.ss{font-size:15px;color:var(--muted);margin-bottom:28px;}
+.hero{background:linear-gradient(135deg,#1A1A2E,#16213E,#0F3460);padding:72px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(255,75,43,0.18),transparent 60%);pointer-events:none;}
+.hi{position:relative;max-width:700px;margin:0 auto;}
+.hero h1{font-size:clamp(30px,5vw,54px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:18px;}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:17px;color:rgba(255,255,255,0.7);margin-bottom:36px;}
+.sbar{display:flex;gap:8px;background:#fff;border-radius:16px;padding:8px;max-width:600px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.sbar input{flex:1;border:none;outline:none;padding:10px 14px;font-size:15px;background:transparent;font-family:'Inter',sans-serif;}
+.hst{display:flex;gap:48px;justify-content:center;margin-top:48px;}
+.hst .num{font-size:30px;font-weight:800;color:#fff;font-family:'Poppins',sans-serif;}
+.hst .lbl{font-size:13px;color:rgba(255,255,255,0.5);}
+.cr{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;}
+.cr::-webkit-scrollbar{display:none;}
+.ci{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 18px;min-width:90px;border-radius:16px;border:2px solid var(--border);background:#fff;cursor:pointer;transition:all 0.2s;user-select:none;}
+.ci:hover,.ci.active{border-color:var(--red);background:#FFF5F5;box-shadow:0 4px 14px rgba(255,75,43,0.18);}
+.ce{font-size:28px;line-height:1;}
+.cn{font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;color:var(--text);}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;}
+.rc{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.07);cursor:pointer;transition:all 0.22s;border:1px solid transparent;}
+.rc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.12);border-color:#FFD4C8;}
+.ri{width:100%;height:170px;display:flex;align-items:center;justify-content:center;font-size:60px;}
+.rb{padding:16px;}
+.rn{font-size:16px;font-weight:700;margin-bottom:4px;font-family:'Poppins',sans-serif;}
+.rsb{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.rm{display:flex;gap:8px;flex-wrap:wrap;}
+.nr{grid-column:1/-1;padding:60px;text-align:center;color:var(--muted);display:none;}
+.nr.show{display:block;}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;}
+.hs{text-align:center;padding:32px 24px;background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+.hn{width:32px;height:32px;border-radius:50%;background:var(--grad);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-family:'Poppins',sans-serif;}
+.hic{font-size:44px;margin-bottom:14px;}
+footer{background:#1A1A2E;color:rgba(255,255,255,0.65);padding:48px 40px 24px;margin-top:auto;}
+.fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px;}
+.flo{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.fc h4{color:#fff;font-size:13px;font-weight:700;margin-bottom:14px;font-family:'Poppins',sans-serif;}
+.fc a{display:block;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:8px;cursor:pointer;}
+.fc a:hover{color:#fff;}
+.fb{border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;display:flex;justify-content:space-between;font-size:13px;}
+.fbar{display:flex;gap:10px;padding:16px 40px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--border);scrollbar-width:none;}
+.fbar::-webkit-scrollbar{display:none;}
+.fc2{padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;border:2px solid var(--border);background:#fff;cursor:pointer;white-space:nowrap;font-family:'Poppins',sans-serif;transition:all 0.2s;flex-shrink:0;}
+.fc2:hover{border-color:var(--red);color:var(--red);}
+.fc2.active{background:var(--red);color:#fff;border-color:var(--red);}
+.ml{display:grid;grid-template-columns:1fr 340px;flex:1;}
+.mm{overflow-y:auto;}
+.mbn{display:flex;align-items:center;gap:28px;padding:40px 32px;}
+.mts{display:flex;border-bottom:1px solid var(--border);padding:0 24px;background:#fff;position:sticky;top:68px;z-index:10;overflow-x:auto;scrollbar-width:none;}
+.mts::-webkit-scrollbar{display:none;}
+.mt{padding:14px 16px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);white-space:nowrap;font-family:'Poppins',sans-serif;transition:all 0.2s;}
+.mt:hover,.mt.active{color:var(--red);border-bottom-color:var(--red);}
+.mst{padding:20px 24px 8px;font-size:18px;font-weight:700;font-family:'Poppins',sans-serif;}
+.mi{display:flex;gap:16px;padding:18px 24px;border-bottom:1px solid var(--border);align-items:flex-start;transition:background 0.15s;}
+.mi:hover{background:#FAFAFA;}
+.mii{width:96px;height:86px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:38px;}
+.mif{flex:1;min-width:0;}
+.min{font-size:15px;font-weight:700;margin-bottom:4px;font-family:'Poppins',sans-serif;}
+.mid{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+.mip{font-size:15px;font-weight:700;color:var(--red);font-family:'Poppins',sans-serif;}
+.ab{background:var(--grad);color:#fff;border:none;width:36px;height:36px;border-radius:10px;font-size:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;line-height:1;}
+.ab:hover{transform:scale(1.12);box-shadow:0 4px 12px rgba(255,75,43,0.38);}
+.csw{background:#fff;border-left:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:68px;height:calc(100vh - 68px);}
+.csh{padding:18px 20px 12px;border-bottom:1px solid var(--border);}
+.csi{flex:1;overflow-y:auto;padding:12px 18px;}
+.cit{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.cit:last-child{border-bottom:none;}
+.cin{flex:1;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qc{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.qb{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);background:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.qb:hover{border-color:var(--red);color:var(--red);}
+.qn{font-size:13px;font-weight:700;min-width:18px;text-align:center;font-family:'Poppins',sans-serif;}
+.cip{font-size:13px;font-weight:700;color:var(--red);flex-shrink:0;font-family:'Poppins',sans-serif;}
+.csf{padding:14px 18px;border-top:1px solid var(--border);}
+.tr{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;}
+.tr.grand{font-size:17px;font-weight:700;margin:10px 0 14px;font-family:'Poppins',sans-serif;}
+.cpw{display:grid;grid-template-columns:1fr 360px;gap:32px;padding:40px;max-width:1100px;margin:0 auto;width:100%;}
+.sc{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,0.07);position:sticky;top:90px;}
+.cow{display:grid;grid-template-columns:1fr 360px;gap:32px;padding:40px;max-width:1100px;margin:0 auto;width:100%;}
+.coc{background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:20px;}
+.coc h3{font-size:16px;font-weight:700;margin-bottom:18px;font-family:'Poppins',sans-serif;display:flex;align-items:center;gap:8px;}
+.po{display:flex;align-items:center;gap:12px;padding:13px 16px;border:2px solid var(--border);border-radius:12px;cursor:pointer;margin-bottom:10px;transition:all 0.2s;}
+.po:hover{border-color:#FFB3A7;}
+.po.sel{border-color:var(--red);background:#FFF5F5;}
+.pr{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;}
+.po.sel .pr{border-color:var(--red);background:var(--red);box-shadow:inset 0 0 0 3px #fff;}
+.tb{flex:1;padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;border:2px solid var(--border);background:#fff;font-family:'Poppins',sans-serif;}
+.tb.active{background:var(--grad);color:#fff;border-color:transparent;}
+.cfc{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px;text-align:center;}
+.cfi{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#D1FAE5,#A7F3D0);display:flex;align-items:center;justify-content:center;font-size:50px;margin:0 auto 24px;animation:pi 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes pi{from{transform:scale(0);}to{transform:scale(1);}}
+.tw{max-width:680px;margin:0 auto;padding:40px;width:100%;}
+.tc{background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
+.tsteps{display:flex;flex-direction:column;margin:28px 0;}
+.tstep{display:flex;gap:18px;align-items:flex-start;position:relative;}
+.tstep:not(:last-child)::after{content:'';position:absolute;left:17px;top:38px;width:2px;height:50px;background:var(--border);z-index:0;}
+.tstep.done::after{background:var(--success);}
+.td{width:36px;height:36px;border-radius:50%;flex-shrink:0;z-index:1;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.td.done{background:var(--success);color:#fff;}
+.td.active{background:var(--red);color:#fff;animation:pulse 1.5s infinite;}
+.td.pending{background:var(--border);color:var(--muted);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,75,43,0.4);}50%{box-shadow:0 0 0 10px rgba(255,75,43,0);}}
+.ti{padding:4px 0 40px;}
+.tit{font-size:15px;font-weight:700;font-family:'Poppins',sans-serif;}
+.ttm{font-size:12px;color:var(--muted);margin-top:3px;}
+.ap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1A1A2E,#16213E);padding:40px;}
+.ac{background:#fff;border-radius:24px;padding:44px;width:100%;max-width:440px;box-shadow:0 32px 80px rgba(0,0,0,0.3);}
+.alo{font-family:'Poppins',sans-serif;font-weight:800;font-size:26px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:6px;}
+.asb{text-align:center;font-size:14px;color:var(--muted);margin-bottom:28px;}
+.dv{display:flex;align-items:center;gap:14px;margin:20px 0;color:var(--muted);font-size:13px;}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--border);}
+.asw{text-align:center;font-size:14px;color:var(--muted);margin-top:20px;}
+.asw span{color:var(--red);font-weight:600;cursor:pointer;}
+.pw{display:grid;grid-template-columns:240px 1fr;gap:24px;padding:32px;max-width:1100px;margin:0 auto;width:100%;}
+.psb{background:#fff;border-radius:20px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.07);height:fit-content;}
+.pl{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:500;margin-bottom:3px;transition:all 0.2s;}
+.pl:hover{background:#FFF5F5;color:var(--red);}
+.pl.active{background:#FFF5F5;color:var(--red);font-weight:700;}
+@media(max-width:900px){nav{padding:0 20px;}.nsearch{display:none;}.sec{padding:32px 20px;}.hero{padding:48px 20px;}.rg{grid-template-columns:1fr 1fr;}.fg2{grid-template-columns:1fr 1fr;}.ml{grid-template-columns:1fr;}.csw{display:none;}.cpw{grid-template-columns:1fr;padding:20px;}.cow{grid-template-columns:1fr;padding:20px;}.pw{grid-template-columns:1fr;}.fbar{padding:12px 20px;}}
+@media(max-width:600px){.rg{grid-template-columns:1fr;}.fg2{grid-template-columns:1fr;}.hg{grid-template-columns:1fr;}.hst{gap:24px;}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<a href="../index.html" id="bhub">← Back to Hub</a>
+<!-- HOME -->
+<div class="screen active" id="s-home">
+  <nav>
+    <div class="logo" onclick="go('home')">🍔 QuickBite</div>
+    <div class="nsearch"><span>🔍</span><input id="hs" placeholder="Search restaurants..." oninput="liveSearch(this.value)"></div>
+    <div class="nlinks">
+      <button class="nb g" onclick="go('login')">Login</button>
+      <button class="nb g" onclick="go('profile')">👤 Profile</button>
+      <button class="nb p" onclick="go('register')">Sign Up</button>
+      <button class="cbt" onclick="go('cart')">🛒 <span class="cc" id="c1">0</span></button>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="hi">
+      <div class="bdg br" style="margin-bottom:14px">🚀 Fast delivery across Kigali</div>
+      <h1>Hungry? We've got<br><span>Kigali covered.</span></h1>
+      <p>Order from 200+ local restaurants. Delivered hot to your door in 30 minutes.</p>
+      <div class="sbar">
+        <span style="padding:10px 12px;font-size:20px">📍</span>
+        <input placeholder="Enter your delivery address in Kigali...">
+        <button class="btn bp" onclick="go('browse')">Find Food →</button>
+      </div>
+      <div class="hst">
+        <div><div class="num">200+</div><div class="lbl">Restaurants</div></div>
+        <div><div class="num">30 min</div><div class="lbl">Avg. delivery</div></div>
+        <div><div class="num">50k+</div><div class="lbl">Happy customers</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <h2 class="st">What are you craving?</h2>
+    <p class="ss">Browse by food type and find exactly what you want.</p>
+    <div class="cr" id="hcats">
+      <div class="ci active" data-cat="All"     onclick="pickCat(this)"><div class="ce">🍽️</div><div class="cn">All</div></div>
+      <div class="ci" data-cat="Burgers"  onclick="pickCat(this)"><div class="ce">🍔</div><div class="cn">Burgers</div></div>
+      <div class="ci" data-cat="Pizza"    onclick="pickCat(this)"><div class="ce">🍕</div><div class="cn">Pizza</div></div>
+      <div class="ci" data-cat="Sushi"    onclick="pickCat(this)"><div class="ce">🍣</div><div class="cn">Sushi</div></div>
+      <div class="ci" data-cat="Salads"   onclick="pickCat(this)"><div class="ce">🥗</div><div class="cn">Salads</div></div>
+      <div class="ci" data-cat="Noodles"  onclick="pickCat(this)"><div class="ce">🍜</div><div class="cn">Noodles</div></div>
+      <div class="ci" data-cat="Coffee"   onclick="pickCat(this)"><div class="ce">☕</div><div class="cn">Coffee</div></div>
+      <div class="ci" data-cat="Desserts" onclick="pickCat(this)"><div class="ce">🍰</div><div class="cn">Desserts</div></div>
+      <div class="ci" data-cat="Wraps"    onclick="pickCat(this)"><div class="ce">🌯</div><div class="cn">Wraps</div></div>
+      <div class="ci" data-cat="Chicken"  onclick="pickCat(this)"><div class="ce">🍗</div><div class="cn">Chicken</div></div>
+    </div>
+  </div>
+  <div style="padding:0 40px 56px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <h2 class="st" id="hhead">Featured Restaurants</h2>
+      <button class="btn bp" onclick="go('browse')" style="padding:10px 22px;font-size:14px">View all restaurants →</button>
+    </div>
+    <p class="ss">Top-rated spots delivering to your area right now.</p>
+    <div class="rg" id="hgrid"></div>
+    <div class="nr" id="hemp"><div style="font-size:48px;margin-bottom:12px">🔍</div><p style="font-size:17px;font-weight:700;margin-bottom:6px">No restaurants found</p><p style="font-size:14px">Try a different category or search.</p></div>
+  </div>
+  <div class="sec" style="background:#1A1A2E;padding:56px 40px">
+    <h2 class="st" style="color:#fff;text-align:center;margin-bottom:6px">How QuickBite Works</h2>
+    <p class="ss" style="color:rgba(255,255,255,0.45);text-align:center">Three steps to delicious food at your door</p>
+    <div class="hg">
+      <div class="hs"><div class="hn">1</div><div class="hic">📍</div><h3 style="font-size:16px;margin-bottom:8px">Set Your Location</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">Enter your Kigali address and we'll show nearby restaurants instantly.</p></div>
+      <div class="hs"><div class="hn">2</div><div class="hic">🍔</div><h3 style="font-size:16px;margin-bottom:8px">Pick Your Food</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">Browse menus, filter by category, add to cart with one tap.</p></div>
+      <div class="hs"><div class="hn">3</div><div class="hic">🚗</div><h3 style="font-size:16px;margin-bottom:8px">Track Your Order</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">Pay with MTN MoMo or card and follow your rider in real time.</p></div>
+    </div>
+  </div>
+  <footer>
+    <div class="fg2">
+      <div><div class="flo">🍔 QuickBite</div><p style="font-size:13px;line-height:1.7;max-width:260px">Connecting Kigali's hungry people with the best local restaurants.</p></div>
+      <div class="fc"><h4>Company</h4><a>About Us</a><a>Careers</a><a>Press</a></div>
+      <div class="fc"><h4>Support</h4><a>Help Center</a><a>Track Order</a><a>Contact</a></div>
+      <div class="fc"><h4>Contact</h4><a>📞 +250 788 000 000</a><a>✉️ info@quickbite.rw</a><a>📍 Kigali, Rwanda</a></div>
+    </div>
+    <div class="fb"><span>© 2026 QuickBite Rwanda. All rights reserved.</span><span>EWA408510 — Group Assignment II</span></div>
+  </footer>
+</div>
+<!-- BROWSE -->
+<div class="screen" id="s-browse">
+  <nav>
+    <div class="logo" onclick="go('home')">🍔 QuickBite</div>
+    <div class="nsearch"><span>🔍</span><input id="bs" placeholder="Search restaurants..." oninput="bSearch(this.value)"></div>
+    <div class="nlinks">
+      <button class="nb g" onclick="go('home')">← Home</button>
+      <button class="nb g" onclick="go('profile')">👤 Profile</button>
+      <button class="cbt" onclick="go('cart')">🛒 <span class="cc" id="c2">0</span></button>
+    </div>
+  </nav>
+  <div class="fbar" id="bfilters">
+    <div class="fc2 active" data-f="All"     onclick="bFilter(this)">🍽️ All</div>
+    <div class="fc2" data-f="Burgers"  onclick="bFilter(this)">🍔 Burgers</div>
+    <div class="fc2" data-f="Pizza"    onclick="bFilter(this)">🍕 Pizza</div>
+    <div class="fc2" data-f="Salads"   onclick="bFilter(this)">🥗 Healthy</div>
+    <div class="fc2" data-f="Sushi"    onclick="bFilter(this)">🍣 Sushi</div>
+    <div class="fc2" data-f="Chicken"  onclick="bFilter(this)">🍗 Chicken</div>
+    <div class="fc2" data-f="Coffee"   onclick="bFilter(this)">☕ Café</div>
+    <div class="fc2" data-f="Desserts" onclick="bFilter(this)">🍰 Desserts</div>
+    <div class="fc2" data-f="Noodles"  onclick="bFilter(this)">🍜 Noodles</div>
+    <div class="fc2" data-f="Wraps"    onclick="bFilter(this)">🌯 Wraps</div>
+    <div class="fc2" data-f="free"     onclick="bFilter(this)">🚚 Free Delivery</div>
+    <div class="fc2" data-f="fast"     onclick="bFilter(this)">⚡ Under 30 min</div>
+  </div>
+  <div style="padding:28px 40px 48px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+      <h2 class="st">Restaurants in Kigali</h2>
+      <span id="bcnt" style="font-size:14px;color:var(--muted)"></span>
+    </div>
+    <p class="ss">Delivering to your area right now</p>
+    <div class="rg" id="bgrid"></div>
+    <div class="nr" id="bemp"><div style="font-size:48px;margin-bottom:12px">😕</div><p style="font-size:17px;font-weight:700;margin-bottom:6px">No restaurants found</p><button class="btn bo" style="margin-top:16px" onclick="resetB()">Clear filters</button></div>
+  </div>
+</div>
+<!-- MENU -->
+<div class="screen" id="s-menu">
+  <nav>
+    <div class="logo" onclick="go('home')">🍔 QuickBite</div>
+    <button class="nb g" onclick="go('browse')">← Restaurants</button>
+    <div class="nlinks"><button class="cbt" onclick="go('cart')">🛒 <span class="cc" id="c3">0</span></button></div>
+  </nav>
+  <div class="ml" style="flex:1">
+    <div class="mm">
+      <div class="mbn" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">
+        <div style="font-size:72px">🍔</div>
+        <div>
+          <h1 style="font-size:28px;font-weight:800;margin-bottom:6px">Kigali Burger House</h1>
+          <p style="color:var(--muted);margin-bottom:12px">American · Burgers · Fries · Milkshakes</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span class="bdg by">⭐ 4.8 (230)</span><span class="bdg bgr">🕐 20–30 min</span><span class="bdg bg">🚚 Free delivery</span><span class="bdg bgr">📍 2.3 km</span>
+          </div>
+        </div>
+      </div>
+      <div class="mts"><div class="mt active">🔥 Popular</div><div class="mt">🍔 Burgers</div><div class="mt">🍟 Sides</div><div class="mt">🥤 Drinks</div><div class="mt">🍰 Desserts</div></div>
+      <div class="mst">🔥 Popular Items</div>
+      <div class="mi"><div class="mii" style="background:#FFF3E0">🍔</div><div class="mif"><div class="min">Classic Smash Burger</div><div class="mid">Double smash patty, cheddar, lettuce, tomato, pickles & secret sauce. With fries.</div><div class="mip">5,500 RWF</div></div><button class="ab" onclick="addItem('Classic Smash Burger',5500)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#F3E5F5">🥑</div><div class="mif"><div class="min">Bacon Avocado Burger</div><div class="mid">Crispy bacon, fresh avocado, Swiss cheese, caramelised onions & chipotle mayo.</div><div class="mip">7,200 RWF</div></div><button class="ab" onclick="addItem('Bacon Avocado Burger',7200)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#FFF8E1">🍗</div><div class="mif"><div class="min">Crispy Chicken Burger</div><div class="mid">Buttermilk-fried chicken, coleslaw, dill pickles & honey mustard. With waffle fries.</div><div class="mip">5,000 RWF</div></div><button class="ab" onclick="addItem('Crispy Chicken Burger',5000)">+</button></div>
+      <div class="mst">🍔 Burgers</div>
+      <div class="mi"><div class="mii" style="background:#F1F8E9">🍄</div><div class="mif"><div class="min">Mushroom Swiss Burger</div><div class="mid">Sautéed mushrooms, Swiss cheese, garlic aioli & arugula on sesame bun.</div><div class="mip">6,000 RWF</div></div><button class="ab" onclick="addItem('Mushroom Swiss Burger',6000)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#E8F5E9">🥦</div><div class="mif"><div class="min">Veggie Black Bean Burger</div><div class="mid">Seasoned black bean patty, roasted pepper, avocado & salsa verde. Vegan.</div><div class="mip">4,500 RWF</div></div><button class="ab" onclick="addItem('Veggie Black Bean Burger',4500)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#FCE4EC">🌶️</div><div class="mif"><div class="min">Spicy Jalapeño Burger</div><div class="mid">Pepper jack cheese, pickled jalapeños, sriracha mayo & crispy onion rings.</div><div class="mip">6,500 RWF</div></div><button class="ab" onclick="addItem('Spicy Jalapeño Burger',6500)">+</button></div>
+      <div class="mst">🍟 Sides</div>
+      <div class="mi"><div class="mii" style="background:#FFF3E0">🍟</div><div class="mif"><div class="min">Seasoned Fries</div><div class="mid">Golden fries tossed in house seasoning. With dipping sauce.</div><div class="mip">2,000 RWF</div></div><button class="ab" onclick="addItem('Seasoned Fries',2000)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#FFF8E1">🧅</div><div class="mif"><div class="min">Onion Rings</div><div class="mid">Beer-battered onion rings, crispy and golden. With ranch dip.</div><div class="mip">2,500 RWF</div></div><button class="ab" onclick="addItem('Onion Rings',2500)">+</button></div>
+      <div class="mst">🥤 Drinks</div>
+      <div class="mi"><div class="mii" style="background:#E3F2FD">🧃</div><div class="mif"><div class="min">Fresh Passion Juice</div><div class="mid">Pure Rwandan passion fruit, no added sugar. Ice cold.</div><div class="mip">1,500 RWF</div></div><button class="ab" onclick="addItem('Fresh Passion Juice',1500)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#FCE4EC">🍓</div><div class="mif"><div class="min">Strawberry Milkshake</div><div class="mid">Thick and creamy shake with fresh strawberries & vanilla ice cream.</div><div class="mip">3,000 RWF</div></div><button class="ab" onclick="addItem('Strawberry Milkshake',3000)">+</button></div>
+      <div class="mst">🍰 Desserts</div>
+      <div class="mi"><div class="mii" style="background:#F3E5F5">🍰</div><div class="mif"><div class="min">New York Cheesecake</div><div class="mid">Classic baked cheesecake with strawberry compote.</div><div class="mip">3,500 RWF</div></div><button class="ab" onclick="addItem('New York Cheesecake',3500)">+</button></div>
+      <div class="mi"><div class="mii" style="background:#FFF8E1">🍫</div><div class="mif"><div class="min">Warm Chocolate Brownie</div><div class="mid">Fudgy brownie served warm with vanilla ice cream & chocolate sauce.</div><div class="mip">3,200 RWF</div></div><button class="ab" onclick="addItem('Chocolate Brownie',3200)">+</button></div>
+    </div>
+    <div class="csw">
+      <div class="csh"><h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif">Your Order</h3><p style="font-size:12px;color:var(--muted)">Kigali Burger House</p></div>
+      <div class="csi" id="si"><div class="es" id="se"><div style="font-size:56px;margin-bottom:12px;opacity:0.5">🛒</div><p style="font-weight:700;margin-bottom:4px">Cart is empty</p><p style="font-size:13px">Tap + to add items</p></div></div>
+      <div class="csf" id="sf" style="display:none">
+        <div class="tr"><span>Subtotal</span><span id="ss">0 RWF</span></div>
+        <div class="tr"><span>Delivery</span><span style="color:var(--success)">Free</span></div>
+        <div class="tr grand"><span>Total</span><span id="st">0 RWF</span></div>
+        <button class="btn bp bw" onclick="go('cart')">Go to Cart →</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CART -->
+<div class="screen" id="s-cart">
+  <nav><div class="logo" onclick="go('home')">🍔 QuickBite</div><button class="nb g" onclick="go('menu')">← Back to Menu</button><div style="width:130px"></div></nav>
+  <div style="padding:24px 40px 0;background:#fff;border-bottom:1px solid var(--border)"><h1 style="font-size:26px;font-weight:800">🛒 Your Cart</h1></div>
+  <div class="cpw">
+    <div>
+      <div id="ce" class="es" style="background:#fff;border-radius:16px;padding:60px;display:none"><div style="font-size:64px;margin-bottom:16px;opacity:0.5">🛒</div><p style="font-size:17px;font-weight:700;margin-bottom:8px">Your cart is empty</p><p style="margin-bottom:20px;font-size:14px">Add some food first!</p><button class="btn bp" onclick="go('browse')">Browse Restaurants</button></div>
+      <div id="ci"></div>
+    </div>
+    <div>
+      <div class="sc">
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:18px;font-family:Poppins,sans-serif">Order Summary</h3>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Subtotal</span><span id="csub">0 RWF</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Delivery fee</span><span style="color:var(--success)">Free</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px"><span>Discount</span><span style="color:var(--red)">–500 RWF</span></div>
+        <div style="border-top:1px solid var(--border);margin:14px 0;padding-top:14px;display:flex;justify-content:space-between;font-size:17px;font-weight:700;font-family:Poppins,sans-serif"><span>Total</span><span id="ctot">0 RWF</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:14px"><input class="fi" id="pi" placeholder="Promo code (try: QUICKBITE)" style="flex:1;padding:10px 14px;font-size:14px"><button class="btn bo" style="padding:10px 16px;font-size:13px" onclick="applyPromo()">Apply</button></div>
+        <button class="btn bp bw blg" onclick="go('checkout')">Proceed to Checkout →</button>
+        <button class="btn bw" style="margin-top:8px;color:var(--muted);background:transparent;padding:10px" onclick="go('browse')">+ Add More Items</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CHECKOUT -->
+<div class="screen" id="s-checkout">
+  <nav><div class="logo" onclick="go('home')">🍔 QuickBite</div><div style="font-family:Poppins,sans-serif;font-size:13px;font-weight:700;color:var(--red)">Checkout</div><div style="width:130px"></div></nav>
+  <div class="cow">
+    <div>
+      <div class="coc">
+        <h3>📍 Delivery Address</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="fg"><label class="fl">Full Name</label><input class="fi" value="Amina Uwase"></div><div class="fg"><label class="fl">Phone</label><input class="fi" value="+250 785 000 000"></div></div>
+        <div class="fg"><label class="fl">Street Address</label><input class="fi" value="KG 11 Ave, Kicukiro, Kigali"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="fg"><label class="fl">District</label><input class="fi" value="Kicukiro"></div><div class="fg"><label class="fl">City</label><input class="fi" value="Kigali"></div></div>
+        <div class="fg"><label class="fl">Instructions (optional)</label><textarea class="fi" rows="2" placeholder="E.g. Blue gate, near Nakumatt..."></textarea></div>
+      </div>
+      <div class="coc">
+        <h3>🕐 Delivery Time</h3>
+        <div style="display:flex;gap:12px"><button class="tb active" id="ta" onclick="pickTime('asap')">⚡ ASAP (~30 min)</button><button class="tb" id="ts" onclick="pickTime('sched')">📅 Schedule for later</button></div>
+      </div>
+      <div class="coc">
+        <h3>💳 Payment Method</h3>
+        <div class="po sel" onclick="pickPay(this)"><div class="pr"></div><span style="font-size:22px">📱</span><div><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif">MTN Mobile Money</div><div style="font-size:12px;color:var(--muted)">Instant & secure</div></div></div>
+        <div class="po" onclick="pickPay(this)"><div class="pr"></div><span style="font-size:22px">📱</span><div><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif">Airtel Money</div><div style="font-size:12px;color:var(--muted)">Instant & secure</div></div></div>
+        <div class="po" onclick="pickPay(this)"><div class="pr"></div><span style="font-size:22px">💳</span><div><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif">Credit / Debit Card</div><div style="font-size:12px;color:var(--muted)">Visa, Mastercard</div></div></div>
+        <div class="po" onclick="pickPay(this)"><div class="pr"></div><span style="font-size:22px">💵</span><div><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif">Cash on Delivery</div><div style="font-size:12px;color:var(--muted)">Pay when food arrives</div></div></div>
+        <div class="fg" style="margin-top:14px"><label class="fl">MoMo Phone Number</label><input class="fi" value="+250 785 000 000"></div>
+      </div>
+    </div>
+    <div>
+      <div class="sc">
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:18px;font-family:Poppins,sans-serif">Order Summary</h3>
+        <div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:18px"><p style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:10px">KIGALI BURGER HOUSE</p><div id="coi" style="font-size:14px"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px"><span>Subtotal</span><span id="cosub">0 RWF</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px"><span>Delivery</span><span style="color:var(--success)">Free</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px"><span>Discount</span><span style="color:var(--red)">–500 RWF</span></div>
+        <div style="border-top:1px solid var(--border);margin:14px 0;padding-top:14px;display:flex;justify-content:space-between;font-size:17px;font-weight:700;font-family:Poppins,sans-serif"><span>Total</span><span id="cotot">0 RWF</span></div>
+        <button class="btn bp bw blg" onclick="placeOrder()" style="margin-bottom:8px">✓ Place Order</button>
+        <p style="text-align:center;font-size:12px;color:var(--muted)">🔒 Secured by Flutterwave</p>
+        <div style="margin-top:14px;background:var(--bg);border-radius:12px;padding:14px;text-align:center"><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Estimated Arrival</div><div style="font-size:22px;font-weight:800;font-family:Poppins,sans-serif">⏱ 25–35 min</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CONFIRMED -->
+<div class="screen" id="s-confirm">
+  <nav><div class="logo" onclick="go('home')">🍔 QuickBite</div><div></div><div></div></nav>
+  <div class="cfc">
+    <div class="cfi">✅</div>
+    <h1 style="font-size:34px;font-weight:800;margin-bottom:10px">Order Confirmed!</h1>
+    <p style="font-size:16px;color:var(--muted);margin-bottom:6px">Your order has been sent to Kigali Burger House.</p>
+    <p style="font-size:15px;color:var(--muted);margin-bottom:36px">Estimated delivery: <strong style="color:var(--text)">25–35 minutes</strong></p>
+    <div style="display:flex;align-items:center;gap:16px;background:var(--bg);border-radius:16px;padding:16px 24px;margin-bottom:36px;flex-wrap:wrap;justify-content:center"><span style="font-weight:700;font-family:Poppins,sans-serif">Order #QB‑8821</span><span style="color:var(--muted);font-size:14px">MTN MoMo · Free delivery</span></div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+      <button class="btn bp blg" onclick="go('tracking')">📍 Track My Order</button>
+      <button class="btn bo blg" onclick="go('home')">Back to Home</button>
+    </div>
+  </div>
+</div>
+<!-- TRACKING -->
+<div class="screen" id="s-tracking">
+  <nav><div class="logo" onclick="go('home')">🍔 QuickBite</div><span style="font-family:Poppins,sans-serif;font-weight:700">Order #QB‑8821</span><button class="nb g" onclick="go('home')">Back to Home</button></nav>
+  <div class="tw">
+    <div class="tc">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <div><h2 style="font-size:24px;font-weight:800;margin-bottom:6px">Your food is on the way! 🚗</h2><p style="color:var(--muted)">Est. arrival: <strong style="color:var(--text)">12:45 PM</strong> (~18 min)</p></div>
+        <span class="bdg bg" style="font-size:13px">🟢 Out for Delivery</span>
+      </div>
+      <div style="background:var(--bg);border-radius:999px;height:8px;margin-bottom:28px;overflow:hidden"><div style="background:var(--grad);height:100%;width:75%;border-radius:999px"></div></div>
+      <div class="tsteps">
+        <div class="tstep done"><div class="td done">✓</div><div class="ti"><div class="tit">Order Confirmed</div><div class="ttm">12:12 PM · Received and confirmed.</div></div></div>
+        <div class="tstep done"><div class="td done">✓</div><div class="ti"><div class="tit">Preparing Your Food</div><div class="ttm">12:18 PM · Kitchen is preparing your order.</div></div></div>
+        <div class="tstep"><div class="td active">🚗</div><div class="ti"><div class="tit">Out for Delivery</div><div class="ttm">12:27 PM · Driver Emmanuel is on the way.</div></div></div>
+        <div class="tstep"><div class="td pending">🏠</div><div class="ti"><div class="tit">Delivered</div><div class="ttm">Estimated: 12:45 PM</div></div></div>
+      </div>
+      <div style="background:var(--bg);border-radius:16px;padding:18px;display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+        <div style="width:52px;height:52px;background:var(--grad);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">👨</div>
+        <div style="flex:1"><div style="font-size:15px;font-weight:700;font-family:Poppins,sans-serif">Emmanuel Nkurunziza</div><div style="font-size:12px;color:var(--muted)">Your delivery driver · ⭐ 4.9</div></div>
+        <div style="display:flex;gap:8px"><button class="btn bo" style="padding:9px 14px;font-size:13px" onclick="toast('📞 Calling...')">📞 Call</button><button class="btn bo" style="padding:9px 14px;font-size:13px" onclick="toast('💬 Chat opened!')">💬 Chat</button></div>
+      </div>
+      <div style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-radius:16px;height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:20px"><div style="text-align:center"><div style="font-size:44px;margin-bottom:8px">🗺️</div><div style="font-size:13px;font-weight:600;color:#2d6a2d">Live Map · KG 11 Ave, Kicukiro</div></div></div>
+      <button class="btn bp bw blg" onclick="go('home')">Done — Back to Home</button>
+    </div>
+  </div>
+</div>
+<!-- LOGIN -->
+<div class="screen" id="s-login">
+  <div class="ap">
+    <div class="ac">
+      <div class="alo">🍔 QuickBite</div>
+      <div class="asb">Welcome back! Sign in to continue.</div>
+      <div class="fg"><label class="fl">Email Address</label><input class="fi" id="le" type="email" placeholder="you@example.com"><div id="lee" style="display:none;font-size:12px;color:var(--red);margin-top:4px">⚠ Please enter a valid email.</div></div>
+      <div class="fg"><label class="fl">Password</label><div style="position:relative"><input class="fi" id="lp" type="password" placeholder="Enter your password" style="padding-right:48px"><span onclick="tpw('lp',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--muted)">👁️</span></div><div id="lpe" style="display:none;font-size:12px;color:var(--red);margin-top:4px">⚠ Password is required.</div></div>
+      <div style="text-align:right;margin-bottom:20px"><span style="font-size:13px;color:var(--red);font-weight:600;cursor:pointer" onclick="toast('📧 Reset link sent!')">Forgot password?</span></div>
+      <button class="btn bp bw blg" onclick="doLogin()" style="margin-bottom:10px">Sign In →</button>
+      <div class="dv">or continue with</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        <button class="btn bo" onclick="toast('🌐 Google coming soon!')">🌐 Google</button>
+        <button class="btn bo" onclick="toast('📱 MoMo coming soon!')">📱 MoMo</button>
+      </div>
+      <div class="asw">No account? <span onclick="go('register')">Sign Up free →</span></div>
+      <div style="text-align:center;margin-top:12px"><span style="font-size:13px;color:var(--muted);cursor:pointer" onclick="go('home')">← Back to Home</span></div>
+    </div>
+  </div>
+</div>
+<!-- REGISTER -->
+<div class="screen" id="s-register">
+  <div class="ap">
+    <div class="ac" style="max-width:480px">
+      <div class="alo">🍔 QuickBite</div>
+      <div class="asb">Create your account — it's free!</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div class="fg"><label class="fl">First Name</label><input class="fi" id="rf" placeholder="Amina"></div><div class="fg"><label class="fl">Last Name</label><input class="fi" id="rl" placeholder="Uwase"></div></div>
+      <div class="fg"><label class="fl">Email Address</label><input class="fi" id="re" type="email" placeholder="you@example.com"></div>
+      <div class="fg"><label class="fl">Phone Number</label><input class="fi" id="rp" placeholder="+250 7XX XXX XXX"></div>
+      <div class="fg"><label class="fl">Password</label><div style="position:relative"><input class="fi" id="rpw" type="password" placeholder="Min. 8 characters" oninput="chkStr(this.value)" style="padding-right:48px"><span onclick="tpw('rpw',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--muted)">👁️</span></div><div style="height:4px;background:#E5E7EB;border-radius:999px;margin-top:8px;overflow:hidden"><div id="sf2" style="height:100%;border-radius:999px;width:0%;transition:width 0.3s,background 0.3s"></div></div><div id="st2" style="font-size:11px;margin-top:3px;min-height:16px;color:var(--muted)"></div></div>
+      <div class="fg"><label class="fl">Confirm Password</label><div style="position:relative"><input class="fi" id="rcp" type="password" placeholder="Repeat your password" style="padding-right:48px"><span onclick="tpw('rcp',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--muted)">👁️</span></div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:20px"><input type="checkbox" id="rt" style="width:18px;height:18px;accent-color:var(--red);margin-top:2px;cursor:pointer;flex-shrink:0"><label for="rt" style="font-size:13px;color:var(--muted);line-height:1.5;cursor:pointer">I agree to the <span style="color:var(--red);font-weight:600">Terms of Service</span> and <span style="color:var(--red);font-weight:600">Privacy Policy</span>.</label></div>
+      <button class="btn bp bw blg" onclick="doRegister()" style="margin-bottom:12px">Create Account →</button>
+      <div class="asw">Already have an account? <span onclick="go('login')">Sign In</span></div>
+    </div>
+  </div>
+</div>
+<!-- PROFILE -->
+<div class="screen" id="s-profile">
+  <nav><div class="logo" onclick="go('home')">🍔 QuickBite</div><div style="display:flex;gap:8px"><button class="nb g" onclick="go('home')">← Back to App</button><button class="nb p" onclick="go('browse')">🛒 Order Food</button></div></nav>
+  <div class="pw">
+    <div class="psb">
+      <div style="text-align:center;padding-bottom:18px;border-bottom:1px solid var(--border);margin-bottom:14px">
+        <div onclick="document.getElementById('pf').click()" style="width:80px;height:80px;background:var(--grad);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:800;font-family:Poppins,sans-serif;position:relative;cursor:pointer;overflow:hidden">
+          <span id="pini">AU</span><img id="pavt" src="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%">
+        </div>
+        <input type="file" id="pf" accept="image/*" style="display:none" onchange="upPhoto(event)">
+        <div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif" id="pdn">Amina Uwase</div>
+        <div style="font-size:12px;color:var(--muted)" id="pde">amina.uwase@gmail.com</div>
+        <button onclick="document.getElementById('pf').click()" style="margin-top:8px;background:none;border:1px solid var(--border);border-radius:999px;padding:4px 12px;font-size:11px;font-weight:600;font-family:Poppins,sans-serif;color:var(--muted);cursor:pointer">📷 Change Photo</button>
+      </div>
+      <div class="pl active" onclick="sTab('ti',this)">👤 My Profile</div>
+      <div class="pl" onclick="sTab('to',this)">📦 Order History</div>
+      <div class="pl" onclick="sTab('ta',this)">📍 Saved Addresses</div>
+      <div class="pl" onclick="sTab('tp',this)">💳 Payment Methods</div>
+      <div class="pl" onclick="sTab('tf',this)">❤️ Favourites</div>
+      <div class="pl" onclick="sTab('ts',this)">⚙️ Settings</div>
+      <div style="border-top:1px solid var(--border);margin:10px 0;padding-top:10px"><div class="pl" style="color:#EF4444" onclick="go('home')">🚪 Sign Out</div></div>
+    </div>
+    <div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+        <div style="background:#fff;border-radius:16px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06)"><div style="font-size:26px;font-weight:800;font-family:Poppins,sans-serif;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">18</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Total Orders</div></div>
+        <div style="background:#fff;border-radius:16px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06)"><div style="font-size:26px;font-weight:800;font-family:Poppins,sans-serif;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">142k</div><div style="font-size:12px;color:var(--muted);margin-top:3px">RWF Spent</div></div>
+        <div style="background:#fff;border-radius:16px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06)"><div style="font-size:26px;font-weight:800;font-family:Poppins,sans-serif;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">4.9⭐</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Avg. Rating</div></div>
+      </div>
+      <!-- PROFILE INFO -->
+      <div id="ti">
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:16px">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:18px">👤 Personal Information</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div class="fg"><label class="fl">First Name</label><input class="fi" id="pfn" value="Amina"></div><div class="fg"><label class="fl">Last Name</label><input class="fi" id="pln" value="Uwase"></div></div>
+          <div class="fg"><label class="fl">Email Address</label><input class="fi" id="pem" type="email" value="amina.uwase@gmail.com"></div>
+          <div class="fg"><label class="fl">Phone Number</label><input class="fi" id="pph" value="+250 785 000 000"></div>
+          <button class="btn bp" id="psb" onclick="saveProf()">Save Changes</button>
+        </div>
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:6px">🔒 Change Password</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:18px">For demo: enter any 6+ character current password</p>
+          <div class="fg"><label class="fl">Current Password</label><div style="position:relative"><input class="fi" id="pc" type="password" placeholder="Current password" style="padding-right:48px"><span onclick="tpw('pc',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--muted)">👁️</span></div></div>
+          <div class="fg"><label class="fl">New Password</label><div style="position:relative"><input class="fi" id="pn" type="password" placeholder="Min. 8 characters" oninput="chkPw(this.value)" style="padding-right:48px"><span onclick="tpw('pn',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--muted)">👁️</span></div><div style="height:4px;background:#E5E7EB;border-radius:999px;margin-top:8px;overflow:hidden"><div id="pwf" style="height:100%;border-radius:999px;width:0%;transition:width 0.3s,background 0.3s"></div></div><div id="pwt" style="font-size:11px;margin-top:3px;min-height:16px;color:var(--muted)"></div></div>
+          <div class="fg"><label class="fl">Confirm New Password</label><div style="position:relative"><input class="fi" id="pcf" type="password" placeholder="Repeat new password" style="padding-right:48px"><span onclick="tpw('pcf',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;color:var(--muted)">👁️</span></div></div>
+          <button class="btn bp" id="pwb" onclick="chgPw()">Update Password</button>
+        </div>
+      </div>
+      <!-- ORDERS -->
+      <div id="to" style="display:none">
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:18px">📦 Order History</h3>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)"><div style="width:46px;height:46px;border-radius:12px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🍔</div><div style="flex:1"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Kigali Burger House</div><div style="font-size:12px;color:var(--muted)">3 items · June 18, 2026 · #QB-8821</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:4px">12,500 RWF</div><span class="bdg bg">Delivered</span></div></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)"><div style="width:46px;height:46px;border-radius:12px;background:#FCE4EC;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🍕</div><div style="flex:1"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Bella Italia Kigali</div><div style="font-size:12px;color:var(--muted)">2 items · June 14, 2026 · #QB-8754</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:4px">18,000 RWF</div><span class="bdg bg">Delivered</span></div></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0"><div style="width:46px;height:46px;border-radius:12px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🥗</div><div style="flex:1"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Green Garden Bistro</div><div style="font-size:12px;color:var(--muted)">1 item · June 10, 2026 · #QB-8621</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:4px">7,500 RWF</div><span class="bdg br">Cancelled</span></div></div>
+        </div>
+      </div>
+      <!-- ADDRESSES -->
+      <div id="ta" style="display:none">
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:16px">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:18px">📍 Saved Addresses</h3>
+          <div id="addrList">
+            <div style="border:2px solid var(--red);border-radius:14px;padding:14px;margin-bottom:10px;background:#FFF5F5;display:flex;gap:12px;align-items:center;justify-content:space-between"><div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:22px">🏠</span><div><div style="font-size:13px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Home <span style="background:#D1FAE5;color:#059669;border-radius:999px;padding:2px 8px;font-size:10px;margin-left:4px">Default</span></div><div style="font-size:13px;color:var(--muted)">KG 11 Ave, Kicukiro, Kigali</div></div></div><button onclick="toast('✏️ Edit coming soon!')" style="background:none;border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif;color:var(--muted)">Edit</button></div>
+            <div style="border:2px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;justify-content:space-between"><div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:22px">💼</span><div><div style="font-size:13px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Office</div><div style="font-size:13px;color:var(--muted)">KN 5 Rd, Nyarugenge, Kigali</div></div></div><button onclick="delAddr(this)" style="background:none;border:1px solid #FEE2E2;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif;color:#EF4444">Delete</button></div>
+          </div>
+          <button class="btn bo" id="aab" onclick="togAddrForm()" style="margin-top:4px">+ Add New Address</button>
+        </div>
+        <div id="aform" style="display:none;background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:6px">➕ Add New Address</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:18px">Fill in your delivery address details</p>
+          <div class="fg"><label class="fl">Label</label><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px"><button type="button" onclick="selLbl(this,'🏠 Home')" class="lbtn" style="padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:Poppins,sans-serif">🏠 Home</button><button type="button" onclick="selLbl(this,'💼 Office')" class="lbtn" style="padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:Poppins,sans-serif">💼 Office</button><button type="button" onclick="selLbl(this,'🏫 School')" class="lbtn" style="padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:Poppins,sans-serif">🏫 School</button><button type="button" onclick="selLbl(this,'📍 Other')" class="lbtn" style="padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;border:2px solid var(--border);background:#fff;cursor:pointer;font-family:Poppins,sans-serif">📍 Other</button></div></div>
+          <div class="fg"><label class="fl">Street Address</label><input class="fi" id="asa" placeholder="e.g. KG 11 Ave, House No. 24"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div class="fg"><label class="fl">District</label><select class="fi" id="asd"><option value="">Select...</option><option>Nyarugenge</option><option>Kicukiro</option><option>Gasabo</option></select></div><div class="fg"><label class="fl">City</label><input class="fi" value="Kigali" readonly style="background:var(--bg)"></div></div>
+          <div class="fg"><label class="fl">Instructions (optional)</label><textarea class="fi" id="asnote" rows="2" placeholder="e.g. Blue gate, near Total..."></textarea></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px"><input type="checkbox" id="asdef" style="width:18px;height:18px;accent-color:var(--red);cursor:pointer"><label for="asdef" style="font-size:13px;font-weight:600;font-family:Poppins,sans-serif;cursor:pointer">Set as default address</label></div>
+          <div style="display:flex;gap:12px"><button class="btn bp" onclick="saveAddr()" style="flex:1">💾 Save Address</button><button class="btn bo" onclick="togAddrForm()" style="flex:1">Cancel</button></div>
+        </div>
+      </div>
+      <!-- PAYMENT -->
+      <div id="tp" style="display:none">
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:18px">💳 Payment Methods</h3>
+          <div style="border:2px solid var(--red);border-radius:14px;padding:14px;margin-bottom:10px;background:#FFF5F5;display:flex;gap:12px;align-items:flex-start"><span style="font-size:22px">📱</span><div><div style="font-size:13px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">MTN Mobile Money <span style="background:#D1FAE5;color:#059669;border-radius:999px;padding:2px 8px;font-size:10px;margin-left:4px">Default</span></div><div style="font-size:13px;color:var(--muted)">+250 785 000 000</div></div></div>
+          <div style="border:2px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start"><span style="font-size:22px">💳</span><div><div style="font-size:13px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Visa Card</div><div style="font-size:13px;color:var(--muted)">**** **** **** 4242 · Expires 08/28</div></div></div>
+          <button class="btn bo" onclick="toast('💳 Payment method added!')">+ Add Payment Method</button>
+        </div>
+      </div>
+      <!-- FAVOURITES -->
+      <div id="tf" style="display:none">
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:18px">❤️ Favourite Restaurants</h3>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)"><div style="width:46px;height:46px;border-radius:12px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🍔</div><div style="flex:1"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Kigali Burger House</div><div style="font-size:12px;color:var(--muted)">⭐ 4.8 · 20–30 min · Free delivery</div></div><button class="btn bo" onclick="go('menu')" style="padding:8px 14px;font-size:13px">Order →</button></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 0"><div style="width:46px;height:46px;border-radius:12px;background:#EDE7F6;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">☕</div><div style="flex:1"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">Kawa Coffee & Bites</div><div style="font-size:12px;color:var(--muted)">⭐ 4.8 · 10–20 min · Free delivery</div></div><button class="btn bo" onclick="go('menu')" style="padding:8px 14px;font-size:13px">Order →</button></div>
+        </div>
+      </div>
+      <!-- SETTINGS -->
+      <div id="ts" style="display:none">
+        <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+          <h3 style="font-size:16px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:18px">⚙️ Settings & Notifications</h3>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:14px;font-weight:600;font-family:Poppins,sans-serif">🔔 Order Updates</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Get notified when your order status changes</div></div><label style="position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0"><input type="checkbox" checked style="opacity:0;width:0;height:0;position:absolute" onchange="togSet(this,'Order Updates')"><span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:var(--red);border-radius:999px;cursor:pointer;display:flex;align-items:center;padding:3px"><span style="width:20px;height:20px;background:#fff;border-radius:50%;margin-left:auto;transition:margin 0.3s"></span></span></label></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:14px;font-weight:600;font-family:Poppins,sans-serif">🎁 Promotions & Offers</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Receive discount codes and special offers</div></div><label style="position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0"><input type="checkbox" checked style="opacity:0;width:0;height:0;position:absolute" onchange="togSet(this,'Promotions')"><span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:var(--red);border-radius:999px;cursor:pointer;display:flex;align-items:center;padding:3px"><span style="width:20px;height:20px;background:#fff;border-radius:50%;margin-left:auto;transition:margin 0.3s"></span></span></label></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:14px;font-weight:600;font-family:Poppins,sans-serif">📱 SMS Notifications</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Receive delivery updates via SMS</div></div><label style="position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0"><input type="checkbox" style="opacity:0;width:0;height:0;position:absolute" onchange="togSet(this,'SMS')"><span onclick="this.previousElementSibling.click()" style="position:absolute;inset:0;background:#E5E7EB;border-radius:999px;cursor:pointer;display:flex;align-items:center;padding:3px"><span style="width:20px;height:20px;background:#fff;border-radius:50%;margin-right:auto;transition:margin 0.3s"></span></span></label></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0"><div><div style="font-size:14px;font-weight:600;font-family:Poppins,sans-serif">🌙 Dark Mode</div><div style="font-size:12px;color:var(--muted);margin-top:3px">Switch the app to a dark theme</div></div><label style="position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0"><input type="checkbox" id="dtog" style="opacity:0;width:0;height:0;position:absolute" onchange="togDark(this)"><span onclick="this.previousElementSibling.click()" id="dslider" style="position:absolute;inset:0;background:#E5E7EB;border-radius:999px;cursor:pointer;display:flex;align-items:center;padding:3px"><span style="width:20px;height:20px;background:#fff;border-radius:50%;margin-right:auto;transition:margin 0.3s"></span></span></label></div>
+          <button class="btn bp bw" style="margin-top:20px" onclick="toast('✅ Settings saved!')">Save Preferences</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var RESTS=[
+  {id:1,name:'Kigali Burger House',  emoji:'🍔',bg:'linear-gradient(135deg,#FFF3E0,#FFE0B2)',cats:['burgers'],         tags:'burgers fries american',     rating:'4.8',time:'20-30',fee:'Free delivery',free:true,fast:true},
+  {id:2,name:'Bella Italia Kigali',  emoji:'🍕',bg:'linear-gradient(135deg,#FCE4EC,#F8BBD9)',cats:['pizza'],           tags:'pizza pasta italian',         rating:'4.6',time:'30-45',fee:'500 RWF fee',  free:false,fast:false},
+  {id:3,name:'Green Garden Bistro',  emoji:'🥗',bg:'linear-gradient(135deg,#E8F5E9,#C8E6C9)',cats:['salads'],          tags:'salads healthy vegan',        rating:'4.9',time:'15-25',fee:'Free delivery',free:true,fast:true},
+  {id:4,name:'Tokyo Garden',         emoji:'🍣',bg:'linear-gradient(135deg,#E3F2FD,#BBDEFB)',cats:['sushi','noodles'],tags:'sushi ramen japanese noodles',rating:'4.7',time:'35-50',fee:'1,000 RWF',   free:false,fast:false},
+  {id:5,name:'Crispy Wings KG',      emoji:'🍗',bg:'linear-gradient(135deg,#FFF8E1,#FFECB3)',cats:['chicken'],         tags:'chicken wings fried sides',   rating:'4.5',time:'20-35',fee:'Free delivery',free:true,fast:true},
+  {id:6,name:'Kawa Coffee & Bites',  emoji:'☕',bg:'linear-gradient(135deg,#EDE7F6,#D1C4E9)',cats:['coffee'],          tags:'coffee cafe pastries bites',  rating:'4.8',time:'10-20',fee:'Free delivery',free:true,fast:true},
+  {id:7,name:'Spice Route',          emoji:'🌮',bg:'linear-gradient(135deg,#FFEBEE,#FFCDD2)',cats:['wraps'],           tags:'indian wraps curry spice',    rating:'4.4',time:'30-40',fee:'Free delivery',free:true,fast:false},
+  {id:8,name:'Sweet Dreams Bakery',  emoji:'🍰',bg:'linear-gradient(135deg,#F3E5F5,#E1BEE7)',cats:['desserts'],        tags:'bakery cakes desserts pastry',rating:'4.9',time:'15-25',fee:'Free delivery',free:true,fast:true},
+  {id:9,name:'Pho & Noodle Bar',     emoji:'🍜',bg:'linear-gradient(135deg,#E0F7FA,#B2EBF2)',cats:['noodles'],         tags:'pho noodles vietnamese soup', rating:'4.6',time:'25-35',fee:'500 RWF fee',  free:false,fast:true},
+  {id:10,name:'WrapIt Kigali',       emoji:'🌯',bg:'linear-gradient(135deg,#FFF9C4,#FFF176)',cats:['wraps','salads'],  tags:'wraps salads healthy fresh',  rating:'4.3',time:'15-25',fee:'Free delivery',free:true,fast:true}
+];
+
+var cart=[];
+var SM={home:'s-home',browse:'s-browse',menu:'s-menu',cart:'s-cart',checkout:'s-checkout',confirm:'s-confirm',tracking:'s-tracking',login:'s-login',register:'s-register',profile:'s-profile'};
+
+function go(name){
+  if(!SM[name])return;
+  var all=document.querySelectorAll('.screen');
+  for(var i=0;i<all.length;i++)all[i].style.display='none';
+  var el=document.getElementById(SM[name]);
+  if(el){el.style.display='flex';window.scrollTo(0,0);}
+  syncC();
+  if(name==='cart')renderCart();
+  if(name==='checkout')renderCO();
+  if(name==='confirm'){cart=[];syncC();renderSB();}
+  if(name==='browse'){updBC();filterB();}
+}
+
+function addItem(name,price){
+  var found=false;
+  for(var i=0;i<cart.length;i++){if(cart[i].name===name){cart[i].qty++;found=true;break;}}
+  if(!found)cart.push({name:name,price:price,qty:1});
+  syncC();renderSB();
+  toast('✅ Added: '+name);
+}
+
+function chQty(name,delta){
+  for(var i=0;i<cart.length;i++){
+    if(cart[i].name===name){
+      cart[i].qty+=delta;
+      if(cart[i].qty<=0)cart.splice(i,1);
+      break;
+    }
+  }
+  syncC();renderSB();renderCart();
+}
+
+function rmItem(name){
+  for(var i=0;i<cart.length;i++){if(cart[i].name===name){cart.splice(i,1);break;}}
+  syncC();renderSB();renderCart();
+  toast('🗑️ Item removed');
+}
+
+function subT(){
+  var t=0;
+  for(var i=0;i<cart.length;i++)t+=cart[i].qty*cart[i].price;
+  return t;
+}
+
+function fmt(n){return n.toLocaleString()+' RWF';}
+
+function syncC(){
+  var n=0;
+  for(var i=0;i<cart.length;i++)n+=cart[i].qty;
+  var els=document.querySelectorAll('.cc');
+  for(var i=0;i<els.length;i++)els[i].textContent=n;
+}
+
+function renderSB(){
+  var con=document.getElementById('si');
+  var emp=document.getElementById('se');
+  var ft=document.getElementById('sf');
+  if(!con)return;
+  var old=con.querySelectorAll('.cit');
+  for(var i=0;i<old.length;i++)old[i].remove();
+  if(cart.length===0){
+    if(emp)emp.style.display='flex';
+    if(ft)ft.style.display='none';
+    return;
+  }
+  if(emp)emp.style.display='none';
+  if(ft)ft.style.display='block';
+  for(var i=0;i<cart.length;i++){
+    var item=cart[i];
+    var sn=item.name.replace(/'/g,"\\'");
+    var div=document.createElement('div');
+    div.className='cit';
+    div.innerHTML='<span class="cin">'+item.name+'</span>'+
+      '<div class="qc">'+
+      '<button class="qb" onclick="chQty(\''+sn+'\',-1)">-</button>'+
+      '<span class="qn">'+item.qty+'</span>'+
+      '<button class="qb" onclick="chQty(\''+sn+'\',1)">+</button>'+
+      '</div>'+
+      '<span class="cip">'+fmt(item.qty*item.price)+'</span>';
+    con.appendChild(div);
+  }
+  var sub=subT();
+  var ss=document.getElementById('ss');if(ss)ss.textContent=fmt(sub);
+  var st=document.getElementById('st');if(st)st.textContent=fmt(sub);
+}
+
+function renderCart(){
+  var con=document.getElementById('ci');
+  var emp=document.getElementById('ce');
+  var sub=document.getElementById('csub');
+  var tot=document.getElementById('ctot');
+  if(!con)return;
+  var s=subT();
+  var t=s>500?s-500:s;
+  if(sub)sub.textContent=fmt(s);
+  if(tot)tot.textContent=fmt(t);
+  if(cart.length===0){con.innerHTML='';if(emp)emp.style.display='flex';return;}
+  if(emp)emp.style.display='none';
+  var html='<div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,0.07)">';
+  html+='<p style="font-size:15px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:20px">Kigali Burger House</p>';
+  for(var i=0;i<cart.length;i++){
+    var item=cart[i];
+    var sn=item.name.replace(/'/g,"\\'");
+    html+='<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)">';
+    html+='<div style="width:64px;height:60px;background:#FFF3E0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">🍔</div>';
+    html+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">'+item.name+'</div><div style="font-size:14px;font-weight:700;color:var(--red)">'+fmt(item.price)+'</div></div>';
+    html+='<div style="display:flex;align-items:center;gap:8px;flex-shrink:0"><button class="qb" onclick="chQty(\''+sn+'\',-1)">-</button><span style="font-size:15px;font-weight:700;min-width:20px;text-align:center;font-family:Poppins,sans-serif">'+item.qty+'</span><button class="qb" onclick="chQty(\''+sn+'\',1)">+</button></div>';
+    html+='<div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;min-width:80px;text-align:right">'+fmt(item.qty*item.price)+'</div>';
+    html+='<button onclick="rmItem(\''+sn+'\')" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:4px;flex-shrink:0">x</button>';
+    html+='</div>';
+  }
+  html+='</div>';
+  con.innerHTML=html;
+}
+
+function renderCO(){
+  var el=document.getElementById('coi');
+  var sub=document.getElementById('cosub');
+  var tot=document.getElementById('cotot');
+  if(!el)return;
+  var s=subT();
+  var html='';
+  for(var i=0;i<cart.length;i++)html+='<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>'+cart[i].qty+'x '+cart[i].name+'</span><span style="font-weight:600">'+fmt(cart[i].qty*cart[i].price)+'</span></div>';
+  el.innerHTML=html||'<p style="color:var(--muted);font-size:13px">No items</p>';
+  if(sub)sub.textContent=fmt(s);
+  if(tot)tot.textContent=fmt(s>500?s-500:s);
+}
+
+function mkCard(r){
+  return '<div class="rc" data-cats="'+r.cats.join(',').toLowerCase()+'" data-tags="'+r.tags+'" data-free="'+r.free+'" data-fast="'+r.fast+'" onclick="go(\'menu\')">' +
+    '<div class="ri" style="background:'+r.bg+'">'+r.emoji+'</div>' +
+    '<div class="rb"><div class="rn">'+r.name+'</div><div class="rsb">'+r.cats.join(' / ')+'</div>' +
+    '<div class="rm"><span class="bdg by">⭐ '+r.rating+'</span><span class="bdg bgr">🕐 '+r.time+' min</span><span class="bdg '+(r.free?'bg':'bgr')+'">'+r.fee+'</span></div>' +
+    '</div></div>';
+}
+
+function initG(){
+  var hg=document.getElementById('hgrid');
+  var bg=document.getElementById('bgrid');
+  var html='';
+  for(var i=0;i<RESTS.length;i++)html+=mkCard(RESTS[i]);
+  if(hg)hg.innerHTML=html;
+  if(bg)bg.innerHTML=html;
+  updBC();
+}
+
+var hCat='All',hQ='';
+function pickCat(el){
+  var all=document.querySelectorAll('#hcats .ci');
+  for(var i=0;i<all.length;i++)all[i].classList.remove('active');
+  el.classList.add('active');
+  hCat=el.dataset.cat;
+  filterH();
+}
+function liveSearch(v){hQ=v.toLowerCase().trim();filterH();}
+function filterH(){
+  var cards=document.querySelectorAll('#hgrid .rc');
+  var vis=0;
+  for(var i=0;i<cards.length;i++){
+    var c=cards[i];
+    var cats=c.dataset.cats||'';
+    var tags=c.dataset.tags||'';
+    var nm=(c.querySelector('.rn')||{}).textContent||'';
+    nm=nm.toLowerCase();
+    var cm=hCat==='All'||cats.indexOf(hCat.toLowerCase())!==-1;
+    var qm=hQ===''||nm.indexOf(hQ)!==-1||tags.indexOf(hQ)!==-1;
+    c.style.display=(cm&&qm)?'':'none';
+    if(cm&&qm)vis++;
+  }
+  var e=document.getElementById('hemp');
+  var h=document.getElementById('hhead');
+  if(e)e.classList.toggle('show',vis===0);
+  if(h)h.textContent=hCat!=='All'?hCat+' Restaurants':hQ?'Results for "'+hQ+'"':'Featured Restaurants';
+}
+
+var bF='All',bQ='';
+function bFilter(el){
+  var chips=document.querySelectorAll('#bfilters .fc2');
+  for(var i=0;i<chips.length;i++)chips[i].classList.remove('active');
+  el.classList.add('active');
+  bF=el.dataset.f;
+  filterB();
+}
+function bSearch(v){bQ=v.toLowerCase().trim();filterB();}
+function filterB(){
+  var cards=document.querySelectorAll('#bgrid .rc');
+  var vis=0;
+  for(var i=0;i<cards.length;i++){
+    var c=cards[i];
+    var cats=c.dataset.cats||'';
+    var tags=c.dataset.tags||'';
+    var nm=(c.querySelector('.rn')||{}).textContent||'';
+    nm=nm.toLowerCase();
+    var free=c.dataset.free==='true';
+    var fast=c.dataset.fast==='true';
+    var fm=bF==='All'?true:bF==='free'?free:bF==='fast'?fast:cats.indexOf(bF.toLowerCase())!==-1||tags.indexOf(bF.toLowerCase())!==-1;
+    var qm=bQ===''||nm.indexOf(bQ)!==-1||tags.indexOf(bQ)!==-1;
+    c.style.display=(fm&&qm)?'':'none';
+    if(fm&&qm)vis++;
+  }
+  updBC(vis);
+  var e=document.getElementById('bemp');
+  if(e)e.classList.toggle('show',vis===0);
+}
+function updBC(n){
+  var el=document.getElementById('bcnt');
+  if(!el)return;
+  var count=n!==undefined?n:RESTS.length;
+  el.textContent=count+' restaurant'+(count!==1?'s':'')+' found';
+}
+function resetB(){
+  bF='All';bQ='';
+  var chips=document.querySelectorAll('#bfilters .fc2');
+  for(var i=0;i<chips.length;i++)chips[i].classList.remove('active');
+  var first=document.querySelector('#bfilters .fc2');
+  if(first)first.classList.add('active');
+  var inp=document.getElementById('bs');
+  if(inp)inp.value='';
+  filterB();
+}
+
+function pickTime(t){
+  var a=document.getElementById('ta'),s=document.getElementById('ts2');
+  if(!a||!s)return;
+  a.className=t==='asap'?'tb active':'tb';
+  s.className=t==='sched'?'tb active':'tb';
+}
+function pickPay(el){
+  var opts=document.querySelectorAll('.po');
+  for(var i=0;i<opts.length;i++)opts[i].classList.remove('sel');
+  el.classList.add('sel');
+}
+function placeOrder(){
+  if(cart.length===0){toast('⚠️ Cart is empty! Add items first.');return;}
+  go('confirm');
+}
+function applyPromo(){
+  var inp=document.getElementById('pi');
+  if(!inp)return;
+  var code=inp.value.trim().toUpperCase();
+  if(code==='QUICKBITE'||code==='SAVE10'){toast('🎉 Promo applied! -500 RWF');inp.value='';inp.style.borderColor='var(--success)';}
+  else if(!code){toast('⚠️ Enter a promo code first');}
+  else{toast('❌ Invalid promo code');inp.style.borderColor='var(--red)';}
+}
+
+function tpw(id,btn){
+  var inp=document.getElementById(id);
+  if(!inp)return;
+  inp.type=inp.type==='password'?'text':'password';
+  btn.textContent=inp.type==='password'?'👁️':'🙈';
+}
+function chkStr(pw){
+  var f=document.getElementById('sf2'),t=document.getElementById('st2');
+  if(!f||!t)return;
+  var s=0;
+  if(pw.length>=8)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
+  var lv=[{w:'0%',bg:'#E5E7EB',l:''},{w:'25%',bg:'#EF4444',l:'Weak'},{w:'50%',bg:'#F59E0B',l:'Fair'},{w:'75%',bg:'#3B82F6',l:'Good'},{w:'100%',bg:'#22C55E',l:'Strong 💪'}];
+  f.style.width=lv[s].w;f.style.background=lv[s].bg;t.textContent=lv[s].l;t.style.color=lv[s].bg;
+}
+function doLogin(){
+  var em=document.getElementById('le'),pw=document.getElementById('lp');
+  var ee=document.getElementById('lee'),pe=document.getElementById('lpe');
+  var ok=true;
+  if(!em.value||!em.value.includes('@')){em.style.borderColor='var(--red)';if(ee)ee.style.display='block';ok=false;}
+  else{em.style.borderColor='';if(ee)ee.style.display='none';}
+  if(!pw.value){pw.style.borderColor='var(--red)';if(pe)pe.style.display='block';ok=false;}
+  else{pw.style.borderColor='';if(pe)pe.style.display='none';}
+  if(!ok)return;
+  toast('✅ Signed in! Welcome back.');
+  setTimeout(function(){go('home');},800);
+}
+function doRegister(){
+  var fn=document.getElementById('rf').value.trim();
+  var ln=document.getElementById('rl').value.trim();
+  var em=document.getElementById('re').value.trim();
+  var ph=document.getElementById('rp').value.trim();
+  var pw=document.getElementById('rpw').value;
+  var cp=document.getElementById('rcp').value;
+  var tc=document.getElementById('rt').checked;
+  if(!fn||!ln){toast('⚠️ Please enter your full name');return;}
+  if(!em||!em.includes('@')){toast('⚠️ Please enter a valid email');return;}
+  if(!ph){toast('⚠️ Please enter your phone number');return;}
+  if(pw.length<8){toast('⚠️ Password must be at least 8 characters');return;}
+  if(pw!==cp){toast('⚠️ Passwords do not match');return;}
+  if(!tc){toast('⚠️ Please accept the Terms of Service');return;}
+  toast('🎉 Account created! Please sign in.');
+  setTimeout(function(){go('login');var le=document.getElementById('le');if(le)le.value=em;},800);
+}
+
+function sTab(id,el){
+  var tabs=['ti','to','ta','tp','tf','ts'];
+  for(var i=0;i<tabs.length;i++){var t=document.getElementById(tabs[i]);if(t)t.style.display='none';}
+  var links=document.querySelectorAll('.pl');
+  for(var i=0;i<links.length;i++)links[i].classList.remove('active');
+  var tab=document.getElementById(id);if(tab)tab.style.display='block';
+  if(el)el.classList.add('active');
+}
+function upPhoto(e){
+  var file=e.target.files[0];
+  if(!file)return;
+  if(!file.type.startsWith('image/')){toast('⚠️ Please select an image file');return;}
+  if(file.size>5*1024*1024){toast('⚠️ Image too large - max 5MB');return;}
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var src=ev.target.result;
+    var img=document.getElementById('pavt');
+    var ini=document.getElementById('pini');
+    if(img){img.src=src;img.style.display='block';}
+    if(ini)ini.style.display='none';
+    try{localStorage.setItem('qb_photo',src);}catch(err){}
+    toast('🎉 Profile photo updated!');
+  };
+  reader.readAsDataURL(file);
+}
+function saveProf(){
+  var fn=document.getElementById('pfn').value.trim();
+  var ln=document.getElementById('pln').value.trim();
+  var em=document.getElementById('pem').value.trim();
+  if(!fn||!ln){toast('⚠️ Name is required');return;}
+  var full=fn+' '+ln;
+  var dn=document.getElementById('pdn');if(dn)dn.textContent=full;
+  var de=document.getElementById('pde');if(de&&em)de.textContent=em;
+  var ini=document.getElementById('pini');
+  if(ini){var p=full.split(' ');ini.textContent=(p[0][0]+(p[1]?p[1][0]:'')).toUpperCase();}
+  var btn=document.getElementById('psb');
+  if(btn){btn.textContent='✅ Saved!';btn.style.background='var(--success)';setTimeout(function(){btn.textContent='Save Changes';btn.style.background='';},2500);}
+  toast('✅ Profile updated successfully!');
+}
+function chkPw(pw){
+  var f=document.getElementById('pwf'),t=document.getElementById('pwt');
+  if(!f||!t)return;
+  var s=0;
+  if(pw.length>=8)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
+  var lv=[{w:'0%',bg:'#E5E7EB',l:''},{w:'25%',bg:'#EF4444',l:'Weak'},{w:'50%',bg:'#F59E0B',l:'Fair'},{w:'75%',bg:'#3B82F6',l:'Good'},{w:'100%',bg:'#22C55E',l:'Strong 💪'}];
+  f.style.width=lv[s].w;f.style.background=lv[s].bg;t.textContent=lv[s].l;t.style.color=lv[s].bg;
+}
+function chgPw(){
+  var cur=document.getElementById('pc').value;
+  var nw=document.getElementById('pn').value;
+  var cf=document.getElementById('pcf').value;
+  if(!cur||cur.length<6){toast('⚠️ Enter your current password (min 6 chars)');return;}
+  if(nw.length<8){toast('⚠️ New password must be at least 8 characters');return;}
+  if(nw!==cf){toast('⚠️ Passwords do not match');return;}
+  document.getElementById('pc').value='';
+  document.getElementById('pn').value='';
+  document.getElementById('pcf').value='';
+  var f=document.getElementById('pwf'),t=document.getElementById('pwt');
+  if(f)f.style.width='0';if(t)t.textContent='';
+  var btn=document.getElementById('pwb');
+  if(btn){btn.textContent='✅ Password Updated!';btn.style.background='var(--success)';setTimeout(function(){btn.textContent='Update Password';btn.style.background='';},3000);}
+  toast('🔒 Password changed successfully!');
+}
+
+var aLbl='';
+function togAddrForm(){
+  var form=document.getElementById('aform'),btn=document.getElementById('aab');
+  if(!form)return;
+  var hidden=form.style.display==='none'||form.style.display==='';
+  form.style.display=hidden?'block':'none';
+  if(btn)btn.textContent=hidden?'x Cancel':'+ Add New Address';
+  if(hidden)form.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function selLbl(el,label){
+  aLbl=label;
+  var btns=document.querySelectorAll('.lbtn');
+  for(var i=0;i<btns.length;i++){btns[i].style.background='#fff';btns[i].style.borderColor='var(--border)';btns[i].style.color='var(--text)';}
+  el.style.background='var(--red)';el.style.borderColor='var(--red)';el.style.color='#fff';
+}
+function saveAddr(){
+  var st=document.getElementById('asa').value.trim();
+  var dis=document.getElementById('asd').value;
+  var isDef=document.getElementById('asdef').checked;
+  var lbl=aLbl||'📍 New Address';
+  if(!st){toast('⚠️ Please enter a street address');return;}
+  if(!dis){toast('⚠️ Please select a district');return;}
+  var list=document.getElementById('addrList');
+  var card=document.createElement('div');
+  card.style.cssText='border:2px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;justify-content:space-between';
+  card.innerHTML='<div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:22px">📍</span><div><div style="font-size:13px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:2px">'+lbl+(isDef?' <span style="background:#D1FAE5;color:#059669;border-radius:999px;padding:2px 8px;font-size:10px;margin-left:4px">Default</span>':'')+'</div><div style="font-size:13px;color:var(--muted)">'+st+', '+dis+', Kigali</div></div></div><button onclick="delAddr(this)" style="background:none;border:1px solid #FEE2E2;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif;color:#EF4444">Delete</button>';
+  if(list)list.appendChild(card);
+  document.getElementById('asa').value='';
+  document.getElementById('asd').value='';
+  document.getElementById('asdef').checked=false;
+  aLbl='';
+  var btns=document.querySelectorAll('.lbtn');
+  for(var i=0;i<btns.length;i++){btns[i].style.background='#fff';btns[i].style.borderColor='var(--border)';btns[i].style.color='var(--text)';}
+  togAddrForm();
+  toast('📍 Address saved!');
+}
+function delAddr(btn){
+  if(confirm('Delete this address?')){
+    var card=btn.parentElement;
+    card.style.opacity='0';card.style.transition='opacity 0.25s';
+    setTimeout(function(){card.remove();},260);
+    toast('🗑️ Address deleted');
+  }
+}
+
+function togSet(cb,name){
+  var slider=cb.nextElementSibling,dot=slider?slider.querySelector('span'):null;
+  if(cb.checked){if(slider)slider.style.background='var(--red)';if(dot){dot.style.marginLeft='auto';dot.style.marginRight='';}toast('✅ '+name+' enabled');}
+  else{if(slider)slider.style.background='#E5E7EB';if(dot){dot.style.marginRight='auto';dot.style.marginLeft='';}toast('🔕 '+name+' disabled');}
+}
+function togDark(cb){
+  var slider=document.getElementById('dslider'),dot=slider?slider.querySelector('span'):null;
+  if(cb.checked){if(slider)slider.style.background='#6366F1';if(dot){dot.style.marginLeft='auto';dot.style.marginRight='';}toast('🌙 Dark mode enabled!');}
+  else{if(slider)slider.style.background='#E5E7EB';if(dot){dot.style.marginRight='auto';dot.style.marginLeft='';}toast('☀️ Light mode enabled!');}
+}
+
+function toast(msg){
+  var el=document.getElementById('toast');
+  if(!el)return;
+  el.textContent=msg;
+  el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},2800);
+}
+
+// BOOT
+(function(){
+  var all=document.querySelectorAll('.screen');
+  for(var i=0;i<all.length;i++)all[i].style.display='none';
+  var home=document.getElementById('s-home');
+  if(home)home.style.display='flex';
+  initG();
+  syncC();
+  try{
+    var p=localStorage.getItem('qb_photo');
+    if(p){
+      var img=document.getElementById('pavt');
+      var ini=document.getElementById('pini');
+      if(img){img.src=p;img.style.display='block';}
+      if(ini)ini.style.display='none';
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

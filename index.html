@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickBite — Assignment Deliverables | EWA408510</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#0D0D1A;color:#fff;min-height:100vh;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1A1A2E 0%,#16213E 60%,#0F3460 100%);padding:72px 48px 56px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 65% 40%,rgba(255,75,43,0.18),transparent 65%);pointer-events:none;}
+.hero-inner{position:relative;max-width:720px;margin:0 auto;}
+.badge{display:inline-block;background:rgba(255,75,43,0.25);border:1px solid rgba(255,75,43,0.45);color:#FF8060;border-radius:999px;padding:5px 18px;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif;margin-bottom:18px;}
+.hero-logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:32px;background:linear-gradient(135deg,#FF4B2B,#FF416C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;}
+.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:18px;}
+.hero h1 span{background:linear-gradient(135deg,#FF4B2B,#FF416C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:16px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:560px;margin:0 auto;}
+
+/* INFO STRIP */
+.info-strip{display:grid;grid-template-columns:repeat(3,1fr);background:#12122A;}
+.info-cell{padding:18px 32px;border-right:1px solid rgba(255,255,255,0.07);}
+.info-cell:last-child{border-right:none;}
+.info-lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,0.3);margin-bottom:4px;}
+.info-val{font-size:14px;font-weight:600;color:rgba(255,255,255,0.88);font-family:'Poppins',sans-serif;}
+
+/* SECTIONS */
+.section{padding:48px;}
+.sec-title{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:10px;}
+.sec-sub{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:28px;}
+
+/* PROTOTYPE CARD */
+.proto-card{background:linear-gradient(135deg,#FF4B2B,#FF416C);border-radius:20px;padding:36px;display:flex;align-items:center;gap:32px;text-decoration:none;color:#fff;transition:all 0.2s;cursor:pointer;}
+.proto-card:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(255,75,43,0.45);}
+.proto-emoji{font-size:72px;flex-shrink:0;}
+.proto-tag{background:rgba(255,255,255,0.22);border-radius:999px;padding:3px 14px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:10px;font-family:'Poppins',sans-serif;letter-spacing:0.5px;}
+.proto-h{font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px;}
+.proto-p{font-size:14px;opacity:0.85;line-height:1.6;margin-bottom:18px;max-width:560px;}
+.proto-btn{display:inline-block;background:#fff;color:#FF4B2B;border-radius:12px;padding:12px 28px;font-weight:700;font-size:15px;font-family:'Poppins',sans-serif;}
+
+/* CARDS GRID */
+.cards-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.card{background:#1C1C32;border:1px solid rgba(255,255,255,0.07);border-radius:18px;padding:22px;text-decoration:none;color:#fff;transition:all 0.2s;display:flex;flex-direction:column;gap:10px;}
+.card:hover{border-color:rgba(255,75,43,0.45);background:#22223A;transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,75,43,0.1);}
+.card-icon{font-size:30px;}
+.card-num{font-size:11px;font-weight:700;color:rgba(255,75,43,0.8);font-family:'Poppins',sans-serif;letter-spacing:1px;text-transform:uppercase;}
+.card-title{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;line-height:1.3;}
+.card-desc{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;flex:1;}
+.card-link{font-size:13px;font-weight:600;color:#FF6B4B;margin-top:4px;}
+
+/* GRADING TABLE */
+.grade-wrap{background:#1C1C32;border-radius:18px;border:1px solid rgba(255,255,255,0.07);overflow:hidden;}
+.grade-table{width:100%;border-collapse:collapse;}
+.grade-table th{text-align:left;padding:12px 18px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.07);font-family:'Poppins',sans-serif;}
+.grade-table td{padding:14px 18px;font-size:14px;border-bottom:1px solid rgba(255,255,255,0.05);vertical-align:middle;}
+.grade-table tr:last-child td{border-bottom:none;}
+.grade-table tr:hover td{background:rgba(255,255,255,0.02);}
+.pts{font-family:'Poppins',sans-serif;font-weight:700;color:#FF6B4B;}
+.bar{height:4px;background:rgba(255,255,255,0.08);border-radius:999px;margin-top:5px;overflow:hidden;width:80px;}
+.bar-fill{height:100%;background:linear-gradient(135deg,#FF4B2B,#FF416C);border-radius:999px;}
+.check-green{color:#2ECC71;font-size:16px;}
+.status-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(46,204,113,0.12);color:#2ECC71;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;}
+
+/* BONUS */
+.bonus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;}
+.bonus-item{background:#1C1C32;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;font-size:13px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:10px;}
+.bonus-icon{font-size:20px;flex-shrink:0;}
+
+/* FOOTER */
+footer{background:#08081A;padding:28px 48px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,0.25);flex-wrap:wrap;gap:8px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .cards-4,.cards-3{grid-template-columns:repeat(2,1fr);}
+  .info-strip{grid-template-columns:1fr;}
+  .proto-card{flex-direction:column;text-align:center;}
+  .section{padding:32px 24px;}
+  .bonus-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .cards-4,.cards-3,.cards-2{grid-template-columns:1fr;}
+  .hero{padding:48px 24px;}
+  .bonus-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge">EWA408510 — Group Assignment II</div>
+    <div class="hero-logo">🍔 QuickBite</div>
+    <h1>Food Delivery Web App<br><span>Prototype & Documentation</span></h1>
+    <p>A complete UI/UX design project — problem statement, two user personas, user flow diagram, 6 wireframes, 8 high-fidelity screens, and a fully interactive prototype.</p>
+  </div>
+</div>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-cell"><div class="info-lbl">Course</div><div class="info-val">EWA408510 – E-Commerce & Web App</div></div>
+  <div class="info-cell"><div class="info-lbl">Instructor</div><div class="info-val">Eric Maniraguha</div></div>
+  <div class="info-cell"><div class="info-lbl">Assessment</div><div class="info-val">Group Assignment II — Figma Prototype</div></div>
+  <div class="info-cell"><div class="info-lbl">Application Type</div><div class="info-val">Food Delivery Web Application</div></div>
+  <div class="info-cell"><div class="info-lbl">App Name</div><div class="info-val">QuickBite Rwanda</div></div>
+  <div class="info-cell"><div class="info-lbl">Deadline</div><div class="info-val">26 June 2026</div></div>
+</div>
+
+<!-- PROTOTYPE -->
+<div class="section">
+  <div class="sec-title">⚡ Interactive Prototype</div>
+  <div class="sec-sub">The main deliverable — fully clickable, all screens connected</div>
+  <a href="prototype/prototype.html" class="proto-card">
+    <div class="proto-emoji">🚀</div>
+    <div>
+      <div class="proto-tag">MAIN DELIVERABLE</div>
+      <div class="proto-h">Open Full Interactive Prototype</div>
+      <div class="proto-p">All 9 screens connected with live navigation, working cart, checkout flow, order tracking, and user authentication with validation. No install needed — opens directly in browser.</div>
+      <div class="proto-btn">Launch QuickBite Prototype →</div>
+    </div>
+  </a>
+</div>
+
+<!-- WIREFRAMES — 6 screens -->
+<div class="section" style="padding-top:0">
+  <div class="sec-title">📐 Wireframes (Low-Fidelity)</div>
+  <div class="sec-sub">6 screens — structure and layout focus, no styling</div>
+  <div class="cards-3">
+    <a href="wireframes/01-home-wireframe.html" class="card">
+      <div class="card-icon">🏠</div>
+      <div class="card-num">Wireframe 01</div>
+      <div class="card-title">Home / Landing Page</div>
+      <div class="card-desc">Hero, search bar, categories, featured restaurants, how-it-works, footer</div>
+      <div class="card-link">Open wireframe →</div>
+    </a>
+    <a href="wireframes/02-restaurant-wireframe.html" class="card">
+      <div class="card-icon">🍔</div>
+      <div class="card-num">Wireframe 02</div>
+      <div class="card-title">Restaurant Menu</div>
+      <div class="card-desc">Restaurant header, category tabs, menu items list, cart sidebar</div>
+      <div class="card-link">Open wireframe →</div>
+    </a>
+    <a href="wireframes/03-cart-wireframe.html" class="card">
+      <div class="card-icon">🛒</div>
+      <div class="card-num">Wireframe 03</div>
+      <div class="card-title">Cart Page</div>
+      <div class="card-desc">Item list, quantity controls, promo code, order summary, checkout CTA</div>
+      <div class="card-link">Open wireframe →</div>
+    </a>
+    <a href="wireframes/04-checkout-wireframe.html" class="card">
+      <div class="card-icon">💳</div>
+      <div class="card-num">Wireframe 04</div>
+      <div class="card-title">Checkout Page</div>
+      <div class="card-desc">Address form, delivery time selector, payment method, order summary</div>
+      <div class="card-link">Open wireframe →</div>
+    </a>
+    <a href="wireframes/05-login-register-wireframe.html" class="card">
+      <div class="card-icon">🔑</div>
+      <div class="card-num">Wireframe 05</div>
+      <div class="card-title">Login & Register</div>
+      <div class="card-desc">Side-by-side login and registration forms with field labels and CTAs</div>
+      <div class="card-link">Open wireframe →</div>
+    </a>
+    <a href="wireframes/06-profile-wireframe.html" class="card">
+      <div class="card-icon">👤</div>
+      <div class="card-num">Wireframe 06</div>
+      <div class="card-title">User Profile Page</div>
+      <div class="card-desc">Sidebar navigation, personal info form, order history, avatar section</div>
+      <div class="card-link">Open wireframe →</div>
+    </a>
+  </div>
+</div>
+
+<!-- HI-FI — 8 screens -->
+<div class="section" style="padding-top:0">
+  <div class="sec-title">🎨 High-Fidelity UI Designs</div>
+  <div class="sec-sub">8 polished screens with colors, typography, icons, and real content</div>
+  <div class="cards-4">
+    <a href="prototype/prototype.html" class="card">
+      <div class="card-icon">🌟</div>
+      <div class="card-num">Screen 01</div>
+      <div class="card-title">Landing Page</div>
+      <div class="card-desc">Hero with animated gradient, search, food categories, restaurant grid, how it works, footer</div>
+      <div class="card-link">View in prototype →</div>
+    </a>
+    <a href="high-fidelity-designs/02-browse-restaurants.html" class="card">
+      <div class="card-icon">🗺️</div>
+      <div class="card-num">Screen 02</div>
+      <div class="card-title">Browse Restaurants</div>
+      <div class="card-desc">Filterable grid with 10 restaurants, 12 filter chips, live search, rating badges</div>
+      <div class="card-link">View screen →</div>
+    </a>
+    <a href="high-fidelity-designs/03-restaurant-menu.html" class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-num">Screen 03</div>
+      <div class="card-title">Restaurant Menu</div>
+      <div class="card-desc">Menu with category tabs, food cards, live cart sidebar with qty controls and total</div>
+      <div class="card-link">View screen →</div>
+    </a>
+    <a href="high-fidelity-designs/04-cart.html" class="card">
+      <div class="card-icon">🛒</div>
+      <div class="card-num">Screen 04</div>
+      <div class="card-title">Cart</div>
+      <div class="card-desc">Full cart management — add/remove items, promo code, order summary with discount</div>
+      <div class="card-link">View screen →</div>
+    </a>
+    <a href="high-fidelity-designs/05-checkout.html" class="card">
+      <div class="card-icon">💳</div>
+      <div class="card-num">Screen 05</div>
+      <div class="card-title">Checkout</div>
+      <div class="card-desc">Address form, ASAP/schedule toggle, MTN MoMo / Airtel / card / cash payment</div>
+      <div class="card-link">View screen →</div>
+    </a>
+    <a href="high-fidelity-designs/06-order-tracking.html" class="card">
+      <div class="card-icon">📍</div>
+      <div class="card-num">Screen 06</div>
+      <div class="card-title">Order Tracking</div>
+      <div class="card-desc">Live progress bar, 4-step tracker with animated active state, driver info, map</div>
+      <div class="card-link">View screen →</div>
+    </a>
+    <a href="high-fidelity-designs/07-login-register.html" class="card">
+      <div class="card-icon">🔐</div>
+      <div class="card-num">Screen 07</div>
+      <div class="card-title">Login & Register</div>
+      <div class="card-desc">Tab switching, email+password validation, password strength meter, terms checkbox</div>
+      <div class="card-link">View screen →</div>
+    </a>
+    <a href="high-fidelity-designs/08-profile.html" class="card">
+      <div class="card-icon">👤</div>
+      <div class="card-num">Screen 08</div>
+      <div class="card-title">User Profile</div>
+      <div class="card-desc">6 sections: profile info, order history, saved addresses, payments, favourites, settings</div>
+      <div class="card-link">View screen →</div>
+    </a>
+  </div>
+</div>
+
+<!-- DOCUMENTATION -->
+<div class="section" style="padding-top:0">
+  <div class="sec-title">📄 Documentation</div>
+  <div class="sec-sub">All written deliverables in Markdown format</div>
+  <div class="cards-2" style="margin-bottom:16px">
+    <a href="README.md" class="card">
+      <div class="card-icon">📘</div>
+      <div class="card-title">README.md</div>
+      <div class="card-desc">Project overview, group info, Figma link, repo structure, instructions for accessing files, grading coverage table</div>
+      <div class="card-link">View README →</div>
+    </a>
+    <a href="docs/documentation.md" class="card">
+      <div class="card-icon">📝</div>
+      <div class="card-title">Full Documentation</div>
+      <div class="card-desc">Problem statement, 2 user personas, user flow, design explanation, features implemented, accessibility considerations, challenges, conclusion</div>
+      <div class="card-link">View documentation →</div>
+    </a>
+  </div>
+  <div class="cards-2">
+    <a href="docs/user-flow-diagram.html" class="card">
+      <div class="card-icon">🗺️</div>
+      <div class="card-title">User Flow Diagram</div>
+      <div class="card-desc">Visual interactive flow diagram — nodes, decision branches, colour-coded steps from login to order delivered</div>
+      <div class="card-link">View diagram →</div>
+    </a>
+    <a href="assets/design-tokens.md" class="card">
+      <div class="card-icon">🎨</div>
+      <div class="card-title">Design Tokens</div>
+      <div class="card-desc">Colors, typography scale, spacing, border radius, and shadow reference for the QuickBite design system</div>
+      <div class="card-link">View tokens →</div>
+    </a>
+  </div>
+</div>
+
+<!-- GRADING TABLE -->
+<div class="section" style="padding-top:0">
+  <div class="sec-title">✅ Grading Criteria Coverage</div>
+  <div class="sec-sub">All required components addressed</div>
+  <div class="grade-wrap">
+    <table class="grade-table">
+      <thead>
+        <tr><th>Component</th><th>Marks</th><th>Status</th><th>Where to find it</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Problem Definition</strong></td>
+          <td><span class="pts">5 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ Done</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">docs/documentation.md → Section 1</td>
+        </tr>
+        <tr>
+          <td><strong>User Persona & User Flow</strong></td>
+          <td><span class="pts">10 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ 2 personas + visual flow</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">docs/documentation.md → Sections 2 & 3</td>
+        </tr>
+        <tr>
+          <td><strong>Wireframes (min. 4 screens)</strong></td>
+          <td><span class="pts">15 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ 6 screens</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">wireframes/ folder</td>
+        </tr>
+        <tr>
+          <td><strong>UI Design Quality (min. 6 screens)</strong></td>
+          <td><span class="pts">15 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ 8 screens</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">high-fidelity-designs/ + prototype</td>
+        </tr>
+        <tr>
+          <td><strong>Prototype Functionality</strong></td>
+          <td><span class="pts">25 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ Fully interactive</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">prototype/prototype.html</td>
+        </tr>
+        <tr>
+          <td><strong>Accessibility & Responsiveness</strong></td>
+          <td><span class="pts">20 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ Documented</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">docs/documentation.md → Section 7</td>
+        </tr>
+        <tr>
+          <td><strong>Creativity & Innovation</strong></td>
+          <td><span class="pts">10 pts</span><div class="bar"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td><span class="status-pill">✓ Rwanda-specific</span></td>
+          <td style="color:rgba(255,255,255,0.5);font-size:13px">MTN MoMo, RWF, Kigali districts</td>
+        </tr>
+        <tr style="background:rgba(255,75,43,0.05)">
+          <td><strong>TOTAL</strong></td>
+          <td><span class="pts" style="font-size:20px">100 pts</span></td>
+          <td><span class="status-pill">✓ All done</span></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BONUS -->
+  <div style="margin-top:24px">
+    <div style="font-size:14px;font-weight:600;font-family:'Poppins',sans-serif;margin-bottom:4px;color:rgba(255,255,255,0.8)">🌟 Bonus Features Implemented</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:14px">Additional marks may be awarded for these</div>
+    <div class="bonus-grid">
+      <div class="bonus-item"><span class="bonus-icon">💪</span>Password strength meter on register</div>
+      <div class="bonus-item"><span class="bonus-icon">⚡</span>12-chip live filter system + real-time search</div>
+      <div class="bonus-item"><span class="bonus-icon">🎉</span>Animated order confirmation screen</div>
+      <div class="bonus-item"><span class="bonus-icon">📱</span>Mobile + tablet + desktop responsive</div>
+      <div class="bonus-item"><span class="bonus-icon">👤</span>Full profile with 6 sections + order history</div>
+      <div class="bonus-item"><span class="bonus-icon">🔴</span>Inline form validation with error states</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>🍔 QuickBite Rwanda — EWA408510 Group Assignment II · UNILAK · 2026</span>
+  <span>Built with HTML5, CSS3 & Vanilla JavaScript</span>
+</footer>
+
+</body>
+</html>

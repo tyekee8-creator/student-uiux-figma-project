@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe 3 — Cart | QuickBite</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: monospace; background: #f0f0f0; }
+  .box { border: 2px dashed #bbb; background: #f9f9f9; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px; padding: 8px; text-align: center; }
+  .fill { background: #ddd; border: 2px solid #bbb; display: flex; align-items: center; justify-content: center; color: #777; font-size: 12px; padding: 8px; text-align: center; }
+  .page { max-width: 900px; margin: 30px auto; }
+  h1 { font-size: 18px; margin-bottom: 4px; }
+  .meta { font-size: 12px; color: #888; margin-bottom: 24px; }
+  .wire { background: white; border: 2px solid #ccc; }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 2px solid #ccc; }
+  .content { display: grid; grid-template-columns: 1fr 320px; gap: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>📐 Wireframe 3 — Cart Page</h1>
+  <p class="meta">QuickBite Food Delivery App · Low-Fidelity · EWA408510 Group Assignment II</p>
+  <div class="wire">
+    <nav class="nav">
+      <div class="fill" style="width:100px;height:32px">LOGO</div>
+      <div class="fill" style="width:140px;height:28px">← Back to Menu</div>
+      <div class="box" style="width:80px;height:32px">Profile</div>
+    </nav>
+
+    <div style="padding:24px;border-bottom:2px solid #eee">
+      <div class="fill" style="width:200px;height:30px">🛒 Your Cart (3 items)</div>
+    </div>
+
+    <div class="content">
+      <!-- Cart Items -->
+      <div style="padding:24px;border-right:2px solid #eee">
+        <div class="fill" style="height:18px;width:180px;margin-bottom:16px">From: Kigali Burger House</div>
+
+        <!-- Item row -->
+        <div style="display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px dashed #ddd">
+          <div class="box" style="width:70px;height:60px;flex-shrink:0">[Img]</div>
+          <div style="flex:1">
+            <div class="fill" style="height:18px;width:70%;margin-bottom:6px"></div>
+            <div class="box" style="height:13px;width:60%;margin-bottom:8px">Special instructions...</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="box" style="width:28px;height:28px">-</div>
+            <div class="fill" style="width:28px;height:28px">1</div>
+            <div class="box" style="width:28px;height:28px">+</div>
+          </div>
+          <div class="fill" style="width:70px;height:18px">2,500 RWF</div>
+          <div class="box" style="width:28px;height:28px">✕</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px dashed #ddd">
+          <div class="box" style="width:70px;height:60px;flex-shrink:0">[Img]</div>
+          <div style="flex:1">
+            <div class="fill" style="height:18px;width:80%;margin-bottom:6px"></div>
+            <div class="box" style="height:13px;width:50%;margin-bottom:8px">Special instructions...</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="box" style="width:28px;height:28px">-</div>
+            <div class="fill" style="width:28px;height:28px">2</div>
+            <div class="box" style="width:28px;height:28px">+</div>
+          </div>
+          <div class="fill" style="width:70px;height:18px">5,000 RWF</div>
+          <div class="box" style="width:28px;height:28px">✕</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:16px 0">
+          <div class="box" style="width:70px;height:60px;flex-shrink:0">[Img]</div>
+          <div style="flex:1">
+            <div class="fill" style="height:18px;width:65%;margin-bottom:6px"></div>
+            <div class="box" style="height:13px;width:55%;margin-bottom:8px">Special instructions...</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="box" style="width:28px;height:28px">-</div>
+            <div class="fill" style="width:28px;height:28px">1</div>
+            <div class="box" style="width:28px;height:28px">+</div>
+          </div>
+          <div class="fill" style="width:70px;height:18px">1,800 RWF</div>
+          <div class="box" style="width:28px;height:28px">✕</div>
+        </div>
+
+        <!-- Promo code -->
+        <div style="padding:20px 0;border-top:1px dashed #ddd;margin-top:8px">
+          <div class="box" style="height:18px;width:140px;margin-bottom:10px">Have a promo code?</div>
+          <div style="display:flex;gap:8px">
+            <div class="box" style="flex:1;height:40px">Enter code...</div>
+            <div class="fill" style="width:90px;height:40px">Apply</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary sidebar -->
+      <div style="padding:24px;background:#fafafa">
+        <div class="fill" style="height:22px;width:100%;margin-bottom:20px">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px"><div class="box" style="width:80px;height:16px">Subtotal</div><div class="box" style="width:80px;height:16px">9,300 RWF</div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px"><div class="box" style="width:100px;height:16px">Delivery Fee</div><div class="box" style="width:80px;height:16px">0 RWF</div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px"><div class="box" style="width:80px;height:16px">Discount</div><div class="box" style="width:80px;height:16px">-500 RWF</div></div>
+        <div style="border-top:1px dashed #ccc;padding-top:12px;margin:12px 0"></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px"><div class="fill" style="width:80px;height:20px">TOTAL</div><div class="fill" style="width:90px;height:20px">8,800 RWF</div></div>
+        <div class="fill" style="width:100%;height:48px;margin-bottom:12px">Proceed to Checkout →</div>
+        <div class="box" style="width:100%;height:36px">← Add More Items</div>
+
+        <div style="margin-top:20px;padding:12px;border:1px dashed #ccc;border-radius:6px">
+          <div class="fill" style="height:16px;width:80%;margin-bottom:8px">Estimated Delivery Time</div>
+          <div class="box" style="height:30px;width:100%">🕐 25–35 minutes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="../index.html" style="
+  position:fixed;bottom:24px;left:24px;z-index:9999;
+  display:flex;align-items:center;gap:8px;
+  background:#1A1A2E;color:#fff;padding:10px 16px;
+  border-radius:12px;font-family:monospace;font-size:13px;font-weight:700;
+  text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,0.4);
+">← Back to Hub</a></body>
+</html>

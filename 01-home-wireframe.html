@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe 1 — Home Page | QuickBite</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: monospace; background: #f0f0f0; color: #333; }
+  .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .wire { background: white; border: 2px solid #ccc; }
+  .box { border: 2px dashed #bbb; background: #f9f9f9; display: flex; align-items: center; justify-content: center; color: #999; font-size: 13px; text-align: center; padding: 8px; }
+  .fill { background: #ddd; border: 2px solid #bbb; display: flex; align-items: center; justify-content: center; color: #888; font-size: 13px; text-align: center; padding: 8px; }
+  .page { max-width: 1100px; margin: 30px auto; }
+  h1 { font-size: 18px; margin-bottom: 4px; }
+  .meta { font-size: 12px; color: #888; margin-bottom: 24px; }
+  /* Nav */
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 2px solid #ccc; }
+  .nav-logo { width: 120px; height: 36px; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-link { width: 70px; height: 20px; }
+  .nav-btn { width: 90px; height: 36px; }
+  /* Hero */
+  .hero { margin: 0; padding: 48px 24px; background: #e8e8e8; }
+  .hero-text { width: 60%; margin: 0 auto; text-align: center; }
+  .hero-h { height: 52px; margin-bottom: 12px; }
+  .hero-sub { height: 24px; margin-bottom: 24px; }
+  .search-bar { display: flex; gap: 8px; max-width: 600px; margin: 0 auto; }
+  .search-input { flex: 1; height: 48px; }
+  .search-btn { width: 120px; height: 48px; }
+  /* Categories */
+  .section { padding: 32px 24px; }
+  .section-title { height: 28px; width: 200px; margin-bottom: 20px; }
+  .cats { display: flex; gap: 12px; overflow: hidden; }
+  .cat { width: 100px; text-align: center; }
+  .cat-icon { width: 100%; height: 70px; margin-bottom: 8px; border-radius: 50%; }
+  .cat-label { height: 14px; }
+  /* Restaurant grid */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { border: 2px dashed #bbb; background: #f9f9f9; border-radius: 8px; overflow: hidden; }
+  .card-img { width: 100%; height: 140px; background: #ddd; border-bottom: 2px dashed #bbb; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 12px; }
+  .card-body { padding: 12px; }
+  .card-title { height: 20px; margin-bottom: 8px; }
+  .card-meta { height: 14px; margin-bottom: 6px; }
+  .card-row { display: flex; gap: 8px; }
+  .card-tag { height: 22px; width: 60px; border-radius: 4px; }
+  /* Footer */
+  .footer { padding: 24px; background: #e0e0e0; border-top: 2px solid #ccc; }
+  .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .footer-col { }
+  .footer-h { height: 18px; width: 80%; margin-bottom: 12px; }
+  .footer-line { height: 12px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>📐 Wireframe 1 — Home / Landing Page</h1>
+  <p class="meta">QuickBite Food Delivery App · Low-Fidelity · EWA408510 Group Assignment II</p>
+
+  <div class="wire">
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="label" style="margin:0">LOGO</div>
+      <div class="nav-links">
+        <div class="box nav-link">Nav Link</div>
+        <div class="box nav-link">Nav Link</div>
+        <div class="box nav-link">Nav Link</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div class="box nav-btn">Login</div>
+        <div class="fill nav-btn">Sign Up</div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="fill hero-h" style="max-width:500px;margin:0 auto 12px">[ HERO HEADLINE ]</div>
+      <div class="box hero-sub" style="max-width:380px;margin:0 auto 24px">[ Subheadline / tagline ]</div>
+      <div class="search-bar">
+        <div class="box search-input">📍 Enter your delivery address...</div>
+        <div class="fill search-btn">Find Food</div>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="section">
+      <div class="label">section label</div>
+      <div class="fill section-title">What are you craving?</div>
+      <div class="cats">
+        <div class="cat"><div class="box cat-icon">🍕</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">🍔</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">🍜</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">🍣</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">🥗</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">☕</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">🍰</div><div class="box cat-label"></div></div>
+        <div class="cat"><div class="box cat-icon">🌯</div><div class="box cat-label"></div></div>
+      </div>
+    </div>
+
+    <!-- FEATURED RESTAURANTS -->
+    <div class="section" style="background:#f5f5f5">
+      <div class="label">section label</div>
+      <div class="fill section-title">Featured Restaurants</div>
+      <div class="grid">
+        <div class="card"><div class="card-img">[Restaurant Image]</div><div class="card-body"><div class="fill card-title"></div><div class="box card-meta"></div><div class="card-row"><div class="box card-tag">⭐ 4.8</div><div class="box card-tag">20 min</div><div class="box card-tag">Free</div></div></div></div>
+        <div class="card"><div class="card-img">[Restaurant Image]</div><div class="card-body"><div class="fill card-title"></div><div class="box card-meta"></div><div class="card-row"><div class="box card-tag">⭐ 4.6</div><div class="box card-tag">30 min</div><div class="box card-tag">500 RWF</div></div></div></div>
+        <div class="card"><div class="card-img">[Restaurant Image]</div><div class="card-body"><div class="fill card-title"></div><div class="box card-meta"></div><div class="card-row"><div class="box card-tag">⭐ 4.9</div><div class="box card-tag">15 min</div><div class="box card-tag">Free</div></div></div></div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section">
+      <div class="fill section-title">How QuickBite Works</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px">
+        <div style="text-align:center"><div class="box" style="width:80px;height:80px;border-radius:50%;margin:0 auto 12px">Step 1</div><div class="fill" style="height:18px;margin-bottom:8px"></div><div class="box" style="height:40px"></div></div>
+        <div style="text-align:center"><div class="box" style="width:80px;height:80px;border-radius:50%;margin:0 auto 12px">Step 2</div><div class="fill" style="height:18px;margin-bottom:8px"></div><div class="box" style="height:40px"></div></div>
+        <div style="text-align:center"><div class="box" style="width:80px;height:80px;border-radius:50%;margin:0 auto 12px">Step 3</div><div class="fill" style="height:18px;margin-bottom:8px"></div><div class="box" style="height:40px"></div></div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-grid">
+        <div class="footer-col"><div class="fill footer-h">LOGO</div><div class="box footer-line"></div><div class="box footer-line"></div></div>
+        <div class="footer-col"><div class="fill footer-h">Company</div><div class="box footer-line"></div><div class="box footer-line"></div><div class="box footer-line"></div></div>
+        <div class="footer-col"><div class="fill footer-h">Support</div><div class="box footer-line"></div><div class="box footer-line"></div><div class="box footer-line"></div></div>
+        <div class="footer-col"><div class="fill footer-h">Contact</div><div class="box footer-line"></div><div class="box footer-line"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="../index.html" style="
+  position:fixed;bottom:24px;left:24px;z-index:9999;
+  display:flex;align-items:center;gap:8px;
+  background:#1A1A2E;color:#fff;padding:10px 16px;
+  border-radius:12px;font-family:monospace;font-size:13px;font-weight:700;
+  text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,0.4);
+">← Back to Hub</a></body>
+</html>

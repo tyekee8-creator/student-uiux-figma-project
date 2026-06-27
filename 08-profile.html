@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screen 08 — User Profile | QuickBite</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF4B2B;--red2:#FF416C;--bg:#FAFAF8;--surface:#fff;--text:#1A1A2E;--muted:#6B7280;--border:#E5E7EB;--success:#2ECC71;--grad:linear-gradient(135deg,#FF4B2B,#FF416C);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
+/* Nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:68px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer;}
+.nav-btn{padding:8px 18px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;font-family:'Poppins',sans-serif;border:2px solid var(--border);background:transparent;color:var(--text);transition:all 0.2s;}
+.nav-btn:hover{border-color:var(--red);color:var(--red);}
+.nav-btn.primary{background:var(--grad);color:#fff;border:none;}
+/* Layout */
+.layout{display:grid;grid-template-columns:260px 1fr;max-width:1100px;margin:0 auto;padding:40px;gap:28px;}
+/* Sidebar */
+.sidebar{background:#fff;border-radius:20px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);height:fit-content;position:sticky;top:90px;}
+.avatar-section{text-align:center;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.avatar{width:90px;height:90px;background:var(--grad);border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;position:relative;overflow:hidden;cursor:pointer;transition:all 0.2s;}
+.avatar:hover .avatar-overlay{opacity:1;}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0;}
+.avatar-initials{position:relative;z-index:1;}
+.avatar-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;z-index:2;cursor:pointer;}
+.avatar-overlay-text{color:#fff;font-size:9px;font-weight:700;font-family:'Poppins',sans-serif;margin-top:2px;}
+.avatar-edit{position:absolute;bottom:2px;right:2px;width:28px;height:28px;background:var(--grad);border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+#avatar-input{display:none;}
+.upload-area{border:2px dashed var(--border);border-radius:16px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s;margin-top:16px;}
+.upload-area:hover{border-color:var(--red);background:#FFF5F5;}
+.upload-area.dragover{border-color:var(--red);background:#FFF5F5;transform:scale(1.01);}
+.photo-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;}
+.photo-modal.open{display:flex;}
+.photo-modal-card{background:#fff;border-radius:24px;padding:32px;width:100%;max-width:420px;box-shadow:0 32px 80px rgba(0,0,0,0.3);}
+.photo-modal-title{font-family:'Poppins',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px;}
+.photo-modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;}
+.preview-ring{width:120px;height:120px;border-radius:50%;margin:0 auto 20px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;overflow:hidden;border:4px solid #fff;box-shadow:0 4px 20px rgba(255,75,43,0.3);}
+.preview-ring img{width:100%;height:100%;object-fit:cover;}
+.avatar-name{font-size:15px;font-weight:700;font-family:'Poppins',sans-serif;margin-bottom:2px;}
+.avatar-email{font-size:12px;color:var(--muted);}
+.nav-link{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;cursor:pointer;transition:all 0.2s;margin-bottom:4px;font-size:14px;font-weight:500;color:var(--muted);}
+.nav-link:hover{background:var(--bg);color:var(--text);}
+.nav-link.active{background:#FFF5F5;color:var(--red);font-weight:700;}
+.nav-link .icon{font-size:18px;width:24px;text-align:center;}
+.nav-link.danger{color:#EF4444;}
+.nav-link.danger:hover{background:#FEE2E2;}
+/* Main content */
+.main{}
+.main-card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:20px;}
+.card-title{font-size:17px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+/* Form */
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;font-family:'Poppins',sans-serif;}
+.form-input{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;font-size:15px;outline:none;transition:border 0.2s;font-family:'Inter',sans-serif;}
+.form-input:focus{border-color:var(--red);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all 0.2s;font-family:'Poppins',sans-serif;}
+.btn-primary{background:var(--grad);color:#fff;}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,75,43,0.3);}
+.btn-outline{background:transparent;border:2px solid var(--border);color:var(--text);}
+.btn-outline:hover{border-color:var(--red);color:var(--red);}
+/* Order history */
+.order-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);}
+.order-row:last-child{border-bottom:none;}
+.order-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.order-info{flex:1;min-width:0;}
+.order-name{font-size:14px;font-weight:700;font-family:'Poppins',sans-serif;margin-bottom:3px;}
+.order-meta{font-size:12px;color:var(--muted);}
+.order-price{font-size:14px;font-weight:700;font-family:'Poppins',sans-serif;flex-shrink:0;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;font-family:'Poppins',sans-serif;}
+.badge-green{background:#D1FAE5;color:#059669;}
+.badge-red{background:#FEE2E2;color:var(--red);}
+.badge-yellow{background:#FEF3C7;color:#D97706;}
+/* Saved addresses */
+.address-card{border:2px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px;cursor:pointer;transition:all 0.2s;}
+.address-card:hover,.address-card.selected{border-color:var(--red);background:#FFF5F5;}
+.address-icon{font-size:22px;flex-shrink:0;}
+.address-label{font-size:13px;font-weight:700;font-family:'Poppins',sans-serif;margin-bottom:3px;}
+.address-text{font-size:13px;color:var(--muted);}
+/* Stats row */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.stat-card{background:#fff;border-radius:16px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+.stat-num{font-size:28px;font-weight:800;font-family:'Poppins',sans-serif;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:3px;}
+/* Toast */
+.toast{position:fixed;bottom:28px;right:28px;background:#1A1A2E;color:#fff;padding:14px 22px;border-radius:14px;font-size:14px;font-weight:600;z-index:9999;font-family:'Poppins',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.25);transform:translateY(120px);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+.toast.show{transform:translateY(0);opacity:1;}
+/* Active section toggle */
+.section-content{display:none;}
+.section-content.active{display:block;}
+@media(max-width:768px){.layout{grid-template-columns:1fr;padding:20px;}.sidebar{position:static;}.stats{grid-template-columns:1fr 1fr;}.grid-2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="window.location.href='../prototype/prototype.html'">🍔 QuickBite</div>
+  <div style="display:flex;gap:10px">
+    <button class="nav-btn" onclick="window.location.href='../prototype/prototype.html'">← Back to App</button>
+    <button class="nav-btn primary" onclick="window.location.href='../prototype/prototype.html'">🛒 Order Food</button>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <!-- Hidden file input -->
+    <input type="file" id="avatar-input" accept="image/*" onchange="handleFileSelect(event)">
+
+    <!-- Photo upload modal -->
+    <div class="photo-modal" id="photo-modal">
+      <div class="photo-modal-card">
+        <div class="photo-modal-title">📷 Update Profile Photo</div>
+        <div class="photo-modal-sub">Choose a new photo or drag & drop below</div>
+        <div class="preview-ring" id="modal-preview"><span id="modal-initials">AU</span></div>
+        <div class="upload-area" id="drop-zone" onclick="document.getElementById('avatar-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+          <div style="font-size:32px;margin-bottom:8px">📁</div>
+          <div style="font-size:14px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:4px">Click to browse or drag & drop</div>
+          <div style="font-size:12px;color:var(--muted)">JPG, PNG, GIF — max 5MB</div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button class="btn btn-primary" style="flex:1" onclick="savePhoto()">Save Photo</button>
+          <button class="btn btn-outline" style="flex:1" onclick="closeModal()">Cancel</button>
+        </div>
+        <button class="btn" style="width:100%;margin-top:8px;color:#EF4444;font-size:13px;padding:8px" onclick="removePhoto()">🗑️ Remove current photo</button>
+      </div>
+    </div>
+
+    <div class="avatar-section">
+      <div class="avatar" onclick="openModal()" title="Click to change photo">
+        <span class="avatar-initials" id="avatar-initials">AU</span>
+        <img id="avatar-img" src="" alt="Profile photo" style="display:none">
+        <div class="avatar-overlay">
+          <span style="font-size:18px">📷</span>
+          <span class="avatar-overlay-text">CHANGE</span>
+        </div>
+        <div class="avatar-edit" onclick="openModal()">📷</div>
+      </div>
+      <div class="avatar-name" id="display-name">Amina Uwase</div>
+      <div class="avatar-email">amina.uwase@gmail.com</div>
+      <button onclick="openModal()" style="background:none;border:1px solid var(--border);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:600;font-family:Poppins,sans-serif;color:var(--muted);cursor:pointer;margin-top:8px;transition:all 0.2s" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">📷 Change Photo</button>
+    </div>
+    <div class="nav-link active" onclick="showSection('profile',this)"><span class="icon">👤</span>My Profile</div>
+    <div class="nav-link" onclick="showSection('orders',this)"><span class="icon">📦</span>Order History</div>
+    <div class="nav-link" onclick="showSection('addresses',this)"><span class="icon">📍</span>Saved Addresses</div>
+    <div class="nav-link" onclick="showSection('payment',this)"><span class="icon">💳</span>Payment Methods</div>
+    <div class="nav-link" onclick="showSection('favourites',this)"><span class="icon">❤️</span>Favourites</div>
+    <div class="nav-link" onclick="showSection('settings',this)"><span class="icon">⚙️</span>Settings</div>
+    <div style="border-top:1px solid var(--border);margin:12px 0;padding-top:12px">
+      <div class="nav-link danger" onclick="signOut()"><span class="icon">🚪</span>Sign Out</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num">18</div><div class="stat-lbl">Total Orders</div></div>
+      <div class="stat-card"><div class="stat-num">142k</div><div class="stat-lbl">RWF Spent</div></div>
+      <div class="stat-card"><div class="stat-num">4.9⭐</div><div class="stat-lbl">Avg. Rating Given</div></div>
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <div class="section-content active" id="sec-profile">
+      <div class="main-card">
+        <div class="card-title">👤 Personal Information</div>
+        <div class="grid-2">
+          <div class="form-group"><label class="form-label">First Name</label><input class="form-input" value="Amina"></div>
+          <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" value="Uwase"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" value="amina.uwase@gmail.com"></div>
+        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" value="+250 785 000 000"></div>
+        <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" value="1999-03-14"></div>
+        <div style="display:flex;gap:12px;margin-top:8px">
+          <button class="btn btn-primary" onclick="showToast('✅ Profile updated successfully!')">Save Changes</button>
+          <button class="btn btn-outline">Cancel</button>
+        </div>
+      </div>
+      <div class="main-card">
+        <div class="card-title">🔒 Change Password</div>
+        <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" type="password" placeholder="••••••••"></div>
+        <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="Min. 8 characters"></div>
+        <div class="form-group"><label class="form-label">Confirm New Password</label><input class="form-input" type="password" placeholder="Repeat new password"></div>
+        <button class="btn btn-primary" onclick="showToast('🔒 Password changed successfully!')">Update Password</button>
+      </div>
+    </div>
+
+    <!-- ORDERS SECTION -->
+    <div class="section-content" id="sec-orders">
+      <div class="main-card">
+        <div class="card-title">📦 Order History</div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#FFF3E0">🍔</div>
+          <div class="order-info">
+            <div class="order-name">Kigali Burger House</div>
+            <div class="order-meta">3 items · June 18, 2026 · #QB-8821</div>
+          </div>
+          <div style="text-align:right">
+            <div class="order-price">12,500 RWF</div>
+            <span class="badge badge-green">Delivered</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#FCE4EC">🍕</div>
+          <div class="order-info">
+            <div class="order-name">Bella Italia Kigali</div>
+            <div class="order-meta">2 items · June 14, 2026 · #QB-8754</div>
+          </div>
+          <div style="text-align:right">
+            <div class="order-price">18,000 RWF</div>
+            <span class="badge badge-green">Delivered</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#E8F5E9">🥗</div>
+          <div class="order-info">
+            <div class="order-name">Green Garden Bistro</div>
+            <div class="order-meta">1 item · June 10, 2026 · #QB-8621</div>
+          </div>
+          <div style="text-align:right">
+            <div class="order-price">7,500 RWF</div>
+            <span class="badge badge-red">Cancelled</span>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#EDE7F6">☕</div>
+          <div class="order-info">
+            <div class="order-name">Kawa Coffee & Bites</div>
+            <div class="order-meta">4 items · June 5, 2026 · #QB-8490</div>
+          </div>
+          <div style="text-align:right">
+            <div class="order-price">9,200 RWF</div>
+            <span class="badge badge-green">Delivered</span>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:20px">
+          <button class="btn btn-outline">Load More Orders</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADDRESSES SECTION -->
+    <div class="section-content" id="sec-addresses">
+      <div class="main-card">
+        <div class="card-title">📍 Saved Addresses</div>
+        <div class="address-card selected">
+          <div class="address-icon">🏠</div>
+          <div>
+            <div class="address-label">Home <span class="badge badge-green" style="margin-left:6px">Default</span></div>
+            <div class="address-text">KG 11 Ave, Kicukiro, Kigali</div>
+          </div>
+        </div>
+        <div class="address-card">
+          <div class="address-icon">💼</div>
+          <div>
+            <div class="address-label">Office</div>
+            <div class="address-text">KN 5 Rd, Nyarugenge, Kigali</div>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="margin-top:8px" onclick="showToast('📍 New address form coming soon!')">+ Add New Address</button>
+      </div>
+    </div>
+
+    <!-- PAYMENT SECTION -->
+    <div class="section-content" id="sec-payment">
+      <div class="main-card">
+        <div class="card-title">💳 Payment Methods</div>
+        <div class="address-card selected">
+          <div class="address-icon">📱</div>
+          <div>
+            <div class="address-label">MTN Mobile Money <span class="badge badge-green" style="margin-left:6px">Default</span></div>
+            <div class="address-text">+250 785 000 000</div>
+          </div>
+        </div>
+        <div class="address-card">
+          <div class="address-icon">💳</div>
+          <div>
+            <div class="address-label">Visa Card</div>
+            <div class="address-text">**** **** **** 4242 · Expires 08/28</div>
+          </div>
+        </div>
+        <button class="btn btn-outline" style="margin-top:8px" onclick="showToast('💳 Add payment method coming soon!')">+ Add Payment Method</button>
+      </div>
+    </div>
+
+    <!-- FAVOURITES SECTION -->
+    <div class="section-content" id="sec-favourites">
+      <div class="main-card">
+        <div class="card-title">❤️ Favourite Restaurants</div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#FFF3E0">🍔</div>
+          <div class="order-info"><div class="order-name">Kigali Burger House</div><div class="order-meta">⭐ 4.8 · 20–30 min · Free delivery</div></div>
+          <button class="btn btn-outline" style="padding:8px 14px;font-size:13px" onclick="window.location.href='../prototype/prototype.html'">Order →</button>
+        </div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#EDE7F6">☕</div>
+          <div class="order-info"><div class="order-name">Kawa Coffee & Bites</div><div class="order-meta">⭐ 4.8 · 10–20 min · Free delivery</div></div>
+          <button class="btn btn-outline" style="padding:8px 14px;font-size:13px" onclick="window.location.href='../prototype/prototype.html'">Order →</button>
+        </div>
+        <div class="order-row">
+          <div class="order-icon" style="background:#F3E5F5">🍰</div>
+          <div class="order-info"><div class="order-name">Sweet Dreams Bakery</div><div class="order-meta">⭐ 4.9 · 15–25 min · Free delivery</div></div>
+          <button class="btn btn-outline" style="padding:8px 14px;font-size:13px" onclick="window.location.href='../prototype/prototype.html'">Order →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS SECTION -->
+    <div class="section-content" id="sec-settings">
+      <div class="main-card">
+        <div class="card-title">⚙️ Preferences & Notifications</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
+            <div><div style="font-weight:600;font-family:Poppins,sans-serif;font-size:14px">Order Updates</div><div style="font-size:12px;color:var(--muted)">Get notified when your order status changes</div></div>
+            <input type="checkbox" checked style="width:20px;height:20px;accent-color:var(--red);cursor:pointer">
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
+            <div><div style="font-weight:600;font-family:Poppins,sans-serif;font-size:14px">Promotions & Offers</div><div style="font-size:12px;color:var(--muted)">Receive discount codes and special offers</div></div>
+            <input type="checkbox" checked style="width:20px;height:20px;accent-color:var(--red);cursor:pointer">
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)">
+            <div><div style="font-weight:600;font-family:Poppins,sans-serif;font-size:14px">SMS Notifications</div><div style="font-size:12px;color:var(--muted)">Receive delivery updates via SMS</div></div>
+            <input type="checkbox" style="width:20px;height:20px;accent-color:var(--red);cursor:pointer">
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0">
+            <div><div style="font-weight:600;font-family:Poppins,sans-serif;font-size:14px">Dark Mode</div><div style="font-size:12px;color:var(--muted)">Switch to dark theme</div></div>
+            <input type="checkbox" style="width:20px;height:20px;accent-color:var(--red);cursor:pointer" onchange="showToast('🌙 Dark mode coming soon!')">
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:16px" onclick="showToast('✅ Settings saved!')">Save Preferences</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showSection(name, el) {
+  document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  el.classList.add('active');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function signOut() {
+  if (confirm('Are you sure you want to sign out?')) {
+    window.location.href = '../prototype/prototype.html';
+  }
+}
+
+/* ─── PHOTO UPLOAD ─── */
+let pendingImageSrc = null;
+
+function openModal() {
+  document.getElementById('photo-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Sync preview with current avatar
+  const currentImg = document.getElementById('avatar-img');
+  const modalPreview = document.getElementById('modal-preview');
+  const modalInitials = document.getElementById('modal-initials');
+  if (currentImg && currentImg.style.display !== 'none' && currentImg.src) {
+    modalPreview.innerHTML = '<img src="' + currentImg.src + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    pendingImageSrc = currentImg.src;
+  } else {
+    const initials = document.getElementById('avatar-initials').textContent;
+    modalPreview.innerHTML = '<span>' + initials + '</span>';
+    pendingImageSrc = null;
+  }
+}
+
+function closeModal() {
+  document.getElementById('photo-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  pendingImageSrc = null;
+  // Reset file input
+  document.getElementById('avatar-input').value = '';
+}
+
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  if (file) processFile(file);
+}
+
+function processFile(file) {
+  // Validate type
+  if (!file.type.startsWith('image/')) {
+    showToast('⚠️ Please select an image file (JPG, PNG, GIF)');
+    return;
+  }
+  // Validate size (5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('⚠️ Image too large — maximum size is 5MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    pendingImageSrc = e.target.result;
+    // Update modal preview
+    const preview = document.getElementById('modal-preview');
+    preview.innerHTML = '<img src="' + pendingImageSrc + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    showToast('✅ Photo ready — click Save Photo to apply');
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePhoto() {
+  if (!pendingImageSrc) {
+    showToast('⚠️ Please select a photo first');
+    return;
+  }
+  // Apply to sidebar avatar
+  const avatarImg   = document.getElementById('avatar-img');
+  const initials    = document.getElementById('avatar-initials');
+  avatarImg.src     = pendingImageSrc;
+  avatarImg.style.display = 'block';
+  initials.style.display  = 'none';
+  // Save to localStorage so it persists on refresh
+  try { localStorage.setItem('qb_profile_photo', pendingImageSrc); } catch(e) {}
+  closeModal();
+  showToast('🎉 Profile photo updated successfully!');
+}
+
+function removePhoto() {
+  pendingImageSrc = null;
+  const avatarImg = document.getElementById('avatar-img');
+  const initials  = document.getElementById('avatar-initials');
+  avatarImg.src   = '';
+  avatarImg.style.display  = 'none';
+  initials.style.display   = '';
+  const preview = document.getElementById('modal-preview');
+  preview.innerHTML = '<span>' + initials.textContent + '</span>';
+  try { localStorage.removeItem('qb_profile_photo'); } catch(e) {}
+  closeModal();
+  showToast('🗑️ Profile photo removed');
+}
+
+// Drag & drop handlers
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.add('dragover');
+}
+function handleDragLeave(e) {
+  document.getElementById('drop-zone').classList.remove('dragover');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+
+// Close modal on backdrop click
+document.getElementById('photo-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Load saved photo on page load
+(function() {
+  try {
+    const saved = localStorage.getItem('qb_profile_photo');
+    if (saved) {
+      const avatarImg = document.getElementById('avatar-img');
+      const initials  = document.getElementById('avatar-initials');
+      avatarImg.src   = saved;
+      avatarImg.style.display = 'block';
+      initials.style.display  = 'none';
+    }
+  } catch(e) {}
+})();
+
+// Update display name when form is saved
+document.addEventListener('DOMContentLoaded', function() {
+  const saveBtn = document.querySelector('#sec-profile .btn-primary');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function() {
+      const fname = document.querySelector('#sec-profile input[placeholder="Amina"]');
+      const lname = document.querySelector('#sec-profile input[placeholder="Uwase"]');
+      if (fname && lname && (fname.value || lname.value)) {
+        const fullName = (fname.value + ' ' + lname.value).trim();
+        const displayName = document.getElementById('display-name');
+        const avatarInitials = document.getElementById('avatar-initials');
+        if (displayName) displayName.textContent = fullName;
+        if (avatarInitials) {
+          const parts = fullName.split(' ');
+          avatarInitials.textContent = (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+        }
+      }
+      showToast('✅ Profile updated successfully!');
+    });
+  }
+});
+</script>
+<a href="../index.html" style="
+  position:fixed;bottom:24px;left:24px;z-index:99999;
+  display:flex;align-items:center;gap:8px;
+  background:#1A1A2E;color:#fff;padding:10px 16px;
+  border-radius:12px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;
+  text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.12);
+">← Back to Hub</a></body>
+</html>
